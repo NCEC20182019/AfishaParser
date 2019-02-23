@@ -41,17 +41,6 @@ public abstract class Parser{
     }
     public abstract void setTime(Event event, Elements classTime, int index);
 
-    /*public ArrayList<Event> parse(String classNames, String classInfos, String classTimes, Document afisha){
-        ArrayList<Event> events = new ArrayList<>();
-
-        Elements names = afisha.getElementsByAttributeValue("class", classNames);
-        Elements infos = afisha.getElementsByAttributeValue("class", classInfos);
-        Elements times = afisha.getElementsByAttributeValue("class", classTimes);
-        getInfo(events, names, infos, times);
-
-        return events;
-    }*/
-
     public ArrayList<Event> parse(Document afisha, String type_of_event){
         ArrayList<Event> events = new ArrayList<>();
         String eventUrl, eventName, location, description, date_start, date_end;
