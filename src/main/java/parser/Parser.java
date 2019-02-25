@@ -7,15 +7,11 @@ import java.util.ListIterator;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public abstract class Parser{
     protected final static String AFISHA_URL = "https://www.afisha.ru";
-    public final static String TYPE_OF_EVENT_CINEMA = "cinema";
-    public final static String TYPE_OF_EVENT_EXHIBITION = "exhibition";
-    public final static String TYPE_OF_EVENT_THEATRE = "theatre";
-    public final static String TYPE_OF_EVENT_CONCERT = "concert";
-
 
     /**
      *
@@ -39,17 +35,22 @@ public abstract class Parser{
         Document afisha = con.get();
         return afisha;
     }
-    public abstract void setTime(Event event, Elements classTime, int index);
+    public abstract void setTime(Event event, Element e);
 
-    public ArrayList<Event> parse(Document afisha, String type_of_event){
+    public abstract String getTypeOfEvent();
+
+
+    public ArrayList<Event> parse(Document afisha){
         ArrayList<Event> events = new ArrayList<>();
         String eventUrl, eventName, location, description, date_start, date_end;
-        Parser type_of_parser = ParserFactory.getParser(type_of_event);
-        Elements[] elems = type_of_parser.getElems(afisha);
+        String type_of_event = getTypeOfEvent();
+        Elements[] elems = getElems(afisha);
+
         //elems[0] содержит имена и урл
         //elms[1] содержит описание и местоположение
         //elms[2] содержит информацию о времени проведения
         for (int i = 0; i < elems[0].size(); i++ ){
+
             if(!type_of_event.equals("theatre")) eventUrl = AFISHA_URL + elems[0].get(i).attr("href");
                 else eventUrl = AFISHA_URL  + elems[0].get(i).child(0).attr("href");
             eventName = elems[0].get(i).text();
@@ -62,7 +63,7 @@ public abstract class Parser{
                     description = "";
                 }
              events.add(new Event(eventName, eventUrl, description, location, type_of_event));
-            type_of_parser.setTime(events.get(i),elems[2], i);
+            if(! type_of_event.equals("cinema")) setTime(events.get(i),elems[2].get(i));
         }
 
         return events;

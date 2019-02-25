@@ -1,6 +1,7 @@
 package parser;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ListIterator;
 public class CinemaParser extends Parser {
     private final static String CINEMA_CLASS_NAMES = "list__item-name";
     private final static String CINEMA_CLASS_INFOS = "list__item-info";
+    private final static String TYPE_OF_EVENT_CINEMA = "cinema";
 
 
     @Override
@@ -26,9 +28,16 @@ public class CinemaParser extends Parser {
     }
 
     @Override
-    public void setTime(Event event, Elements classTime, int index) {
+    public void setTime(Event event, Element e) {
 
     }
+
+    @Override
+    public String getTypeOfEvent() {
+        return TYPE_OF_EVENT_CINEMA;
+    }
+
+
 
 
 }

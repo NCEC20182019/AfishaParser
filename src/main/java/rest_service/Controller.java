@@ -28,18 +28,18 @@ public class Controller {
         Parser p = ParserFactory.getParser(typeOfEvent);
         switch (typeOfEvent) {
             case "cinema" : {
-                return p.parse(Parser.getDocument(AFISHA_CINEMA_URL), TYPE_OF_EVENT_CINEMA);
+                return p.parse(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
-                return p.parse(Parser.getDocument(AFISHA_EXHIBITION_URL), TYPE_OF_EVENT_EXHIBITION);
+                return p.parse(Parser.getDocument(AFISHA_EXHIBITION_URL));
             }
 
             case "theatre" : {
-                return p.parse(Parser.getDocument(AFISHA_THEATRE_URL), TYPE_OF_EVENT_THEATRE);
+                return p.parse(Parser.getDocument(AFISHA_THEATRE_URL));
             }
 
             case "concert" : {
-                return p.parse(Parser.getDocument(AFISHA_CONCERT_URL), TYPE_OF_EVENT_CONCERT);
+                return p.parse(Parser.getDocument(AFISHA_CONCERT_URL));
             }
         }
 
@@ -55,10 +55,10 @@ public class Controller {
 //заставляет отправить обновление в EventService
     @RequestMapping(value = "/parse_all")
     public void postEvents() throws IOException {
-        PostToEventService.postAll(ParserFactory.getParser(TYPE_OF_EVENT_CINEMA).parse(Parser.getDocument(AFISHA_CINEMA_URL), TYPE_OF_EVENT_CINEMA));
-        PostToEventService.postAll(ParserFactory.getParser(TYPE_OF_EVENT_EXHIBITION).parse(Parser.getDocument(AFISHA_EXHIBITION_URL), TYPE_OF_EVENT_EXHIBITION));
-        PostToEventService.postAll(ParserFactory.getParser(TYPE_OF_EVENT_THEATRE).parse(Parser.getDocument(AFISHA_THEATRE_URL), TYPE_OF_EVENT_THEATRE));
-        PostToEventService.postAll(ParserFactory.getParser(TYPE_OF_EVENT_CONCERT).parse(Parser.getDocument(AFISHA_CONCERT_URL), TYPE_OF_EVENT_CONCERT));
+        PostToEventService.postAll(ParserFactory.getParser("cinema").parse(Parser.getDocument(AFISHA_CINEMA_URL)));
+        PostToEventService.postAll(ParserFactory.getParser("exhibition").parse(Parser.getDocument(AFISHA_EXHIBITION_URL)));
+        PostToEventService.postAll(ParserFactory.getParser("theatre").parse(Parser.getDocument(AFISHA_THEATRE_URL)));
+        PostToEventService.postAll(ParserFactory.getParser("concert").parse(Parser.getDocument(AFISHA_CONCERT_URL)));
     }
 
 

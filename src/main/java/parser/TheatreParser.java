@@ -1,6 +1,8 @@
 package parser;
 
+import com.sun.deploy.security.ValidationState;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.text.ParseException;
@@ -12,6 +14,7 @@ public class TheatreParser extends Parser {
     private final static String THEATRE_CLASS_NAMES = "list__item-name";
     private final static String THEATRE_CLASS_INFOS = "list__item-desc-list";
     private final static String THEATRE_CLASS_TIMES = "list__item-desc-time";
+    private final static String TYPE_OF_EVENT_THEATRE = "theatre";
 
     @Override
     public Elements[] getElems(Document afisha) {
@@ -28,16 +31,21 @@ public class TheatreParser extends Parser {
     }
 
     @Override
-    public void setTime(Event event, Elements classTime, int index) {
+    public void setTime(Event event, Element e) {
 
         try {
-            if(classTime.get(index).text().length() == 12 || classTime.get(index).text().length() == 13)
-                event.setDate_start(new TimeParser().toDate( classTime.get(index).text()));//следствие уникального
-            else event.setDate_start(new TimeParser().toDate(classTime.get(index).text().substring(0, 12)));//В МАРТЕ ВСЁ ИЗМЕНИТСЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        } catch (ParseException e) {
-            e.printStackTrace();
-            System.out.println("shit happens with " + classTime.get(index).text());
+            if(e.text().length() == 12 || e.text().length() == 13)
+                event.setDate_start(new TimeParser().toDate( e.text()));//следствие уникального
+            else event.setDate_start(new TimeParser().toDate(e.text().substring(0, 12)));//В МАРТЕ ВСЁ ИЗМЕНИТСЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            System.out.println("shit happens with " + e.text());
         }
+    }
+
+    @Override
+    public String getTypeOfEvent() {
+        return TYPE_OF_EVENT_THEATRE;
     }
 
 }

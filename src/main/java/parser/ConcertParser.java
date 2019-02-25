@@ -1,6 +1,7 @@
 package parser;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.text.ParseException;
@@ -11,6 +12,7 @@ public class ConcertParser extends Parser {
     private final static String CONCERT_CLASS_NAMES = "list__item-name";
     private final static String CONCERT_CLASS_INFOS = "list__item-desc-list";
     private final static String CONCERT_CLASS_TIMES = "list__item-desc-time";
+    private final static String TYPE_OF_EVENT_CONCERT = "concert";
 
 
     @Override
@@ -27,12 +29,19 @@ public class ConcertParser extends Parser {
         return classInfo.get(index).text();
     }
 
+
+
     @Override
-    public void setTime(Event event, Elements classTime, int index) {
+    public String getTypeOfEvent() {
+        return TYPE_OF_EVENT_CONCERT;
+    }
+
+    @Override
+    public void setTime(Event event, Element e) {
         try {
-            event.setDate_start(new TimeParser().toDate(classTime.get(index).text()));
-        } catch (ParseException e) {
-            e.printStackTrace();
+            event.setDate_start(new TimeParser().toDate(e.text()));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
         }
 
     }
