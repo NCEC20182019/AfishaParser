@@ -4,13 +4,39 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
 public class CinemaParser extends Parser {
     private final static String CINEMA_CLASS_NAMES = "list__item-name";
     private final static String CINEMA_CLASS_INFOS = "list__item-info";
+
     private final static String TYPE_OF_EVENT_CINEMA = "cinema";
+
+    private final static String CINEMA_CLASS_TO_PARSE = "new-list__item movie-item";
+
+
+    @Override
+    public ArrayList<Event> getEvents(Document afisha) {
+        ArrayList<Event> events = new ArrayList<>();
+        String title, description, source_url, image_url;
+
+        Elements elems = afisha.getElementsByAttributeValue("class", CINEMA_CLASS_TO_PARSE);
+
+        for( Element el : elems) {
+            title = el.child(0).child(0).attr("content");
+            image_url = el.child(0).child(3).attr("content");
+            description = el.child(0).child(5).attr("content");
+            source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
+            events.add(new Event(title, source_url, description, "", TYPE_OF_EVENT_CINEMA,image_url, null, null));
+        }
+
+        return events;
+    }
+
+
+
 
 
     @Override
@@ -23,13 +49,13 @@ public class CinemaParser extends Parser {
     }
 
     @Override
-    public String getLocation(Elements classInfo, int index) {
+    public String getLocation(Element e) {
         return null;
     }
 
     @Override
-    public void setTime(Event event, Element e) {
-
+    public LocalDateTime getTime(Event event, Element e) {
+        return null;
     }
 
     @Override

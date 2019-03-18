@@ -4,7 +4,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -12,7 +15,39 @@ public class ExhibitionParser extends Parser {
     private final static String EXHIBITION_CLASS_NAMES = "list__item-name";
     private final static String EXHIBITION_CLASS_INFOS = "list__item-info";
     private final static String EXHIBITION_CLASS_TIMES = "list__item-desc-time";
+
     private final static String TYPE_OF_EVENT_EXHIBITION = "exhibition";
+
+    private final static String EXHIBITION_CLASS_TO_PARSE = "new-list__item exhibition-item";
+
+    @Override
+    public ArrayList<Event> getEvents(Document afisha) {
+        ArrayList<Event> events = new ArrayList<>();
+        String title, source_url, image_url, location,
+                description;//description есть в html, но ничего кроме <meta itemProp="description" content=""> замечено не было
+        LocalDateTime date_start, date_end;
+
+        Elements elems = afisha.getElementsByAttributeValue("class", EXHIBITION_CLASS_TO_PARSE);
+
+        for( Element el : elems) {
+            title = el.child(0).child(0).attr("content");
+            date_start = LocalDateTime.parse(el.child(0).child(2).attr("content"));
+            date_end = LocalDateTime.parse(el.child(0).child(3).attr("content"));
+            location = el.child(0).child(4).child(0).attr("content");
+            image_url = el.child(0).child(6).attr("content");
+            description = el.child(0).child(7).attr("content");
+            source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
+
+            events.add(new Event(title, source_url, description, location, TYPE_OF_EVENT_EXHIBITION,image_url, date_start, date_end));
+        }
+
+        return events;
+    }
+
+
+
+
+
 
     @Override
     public Elements[] getElems(Document afisha) {
@@ -24,12 +59,12 @@ public class ExhibitionParser extends Parser {
     }
 
     @Override
-    public String getLocation(Elements classInfo, int index) {
-        return classInfo.get(index).child(1).child(0).text();
+    public String getLocation(Element e) {
+        return e.child(1).child(0).text();
     }
 
     @Override
-    public void setTime(Event event, Element e) {
+    public LocalDateTime getTime(Event event, Element e) {
 
         try {
             if(! e.text().substring(0, 2).equals("с ")) event.setDate_end(new TimeParser().toDate(e.text()));
@@ -37,6 +72,7 @@ public class ExhibitionParser extends Parser {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+        return null;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package parser;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -13,21 +13,29 @@ import org.jsoup.select.Elements;
 public abstract class Parser{
     protected final static String AFISHA_URL = "https://www.afisha.ru";
 
-    /**
-     *
-     * @param afisha
-     * @return
-     */
+    public abstract ArrayList<Event> getEvents(Document afisha);
+
+    //Основной метод для парсинга afisha.ru
+    public ArrayList<Event> parseUsingHtmlAttributes(Document afisha){
+        return getEvents(afisha);
+    }
+
+
+
+
+
+
+    @Deprecated
     public abstract Elements[] getElems(Document afisha);
 
     /**
      *
-     * @param classInfo элементы, в которых описывается местоположение (elms[1])
-     * @param index местоположение элемента в списке
+     * @param e элемент, в котором описывается местоположение
+     *
      * @return возвращает имя локации
      */
-    //Как назвать classInfo?
-    public abstract String getLocation(Elements classInfo, int index);
+    @Deprecated
+    public abstract String getLocation(Element e);
 
     public static Document getDocument(String url) throws IOException{
 
@@ -35,12 +43,19 @@ public abstract class Parser{
         Document afisha = con.get();
         return afisha;
     }
-    public abstract void setTime(Event event, Element e);
-
+    @Deprecated
+    public abstract LocalDateTime getTime(Event event, Element e);
+    @Deprecated
     public abstract String getTypeOfEvent();
 
-
-    public ArrayList<Event> parse(Document afisha){
+    /**
+     * Парсер, основанный на html class'ах
+     * Необходим метод для получения image_url
+     * @param afisha
+     * @return
+     */
+    @Deprecated
+    public ArrayList<Event> parseUsingHtmlClasses(Document afisha){
         ArrayList<Event> events = new ArrayList<>();
         String eventUrl, eventName, location, description, date_start, date_end;
         String type_of_event = getTypeOfEvent();
@@ -59,14 +74,19 @@ public abstract class Parser{
                 location = "";
             }
                 else {
-                    location = getLocation(elems[1], i);
+                    location = getLocation(elems[1].get(i));
                     description = "";
                 }
-             events.add(new Event(eventName, eventUrl, description, location, type_of_event));
-            if(! type_of_event.equals("cinema")) setTime(events.get(i),elems[2].get(i));
+
+             events.add(new Event(eventName, eventUrl, description, location, type_of_event, "", null, null));
+            if(! type_of_event.equals("cinema")){
+                if(! type_of_event.equals("exhibition")) events.get(i).setDate_start(getTime(events.get(i),elems[2].get(i)));
+                    else getTime(events.get(i) ,elems[2].get(i));//как быть тут?
+            }
         }
 
         return events;
     }
+
 
 }

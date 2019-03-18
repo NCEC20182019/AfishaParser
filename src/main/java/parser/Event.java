@@ -13,8 +13,15 @@ public class Event {
     private String typeOfEvent;
     private LocalDateTime date_start;
     private LocalDateTime date_end;
+    private String image_url;
 
+    public String getImage_url() {
+        return image_url;
+    }
 
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 
     public LocalDateTime getDate_start() {
         return date_start;
@@ -39,8 +46,6 @@ public class Event {
     public void setTypeOfEvent(String typeOfEvent) {
         this.typeOfEvent = typeOfEvent;
     }
-
-    private static ArrayList<Event> eventList = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -82,56 +87,21 @@ public class Event {
         source_uri="";
         name_location ="";
         typeOfEvent="";
-
-
+        image_url="=";
     }
 
-    public Event(String title, String source_uri, String typeOfEvent){
-        this.title = title;
-        this.source_uri = source_uri;
-        this.description = "";
-        this.name_location = "";
-        this.typeOfEvent = typeOfEvent;
-        date_start = LocalDateTime.now();
-        date_end = LocalDateTime.now();
 
-    }
-    public Event(String title, String description, String name_location, String source_uri) {
-        this.title = title;
-        this.description = description;
-        this.source_uri = source_uri;
-        this.name_location = name_location;
-        date_start = LocalDateTime.now();
-        date_end = LocalDateTime.now();
 
-    }
-    //основной конструктор
-    public Event(String title, String source_uri, String description, String name_location, String type_of_event) {
+    public Event(String title, String source_uri, String description, String name_location, String type_of_event, String image_url,
+                 LocalDateTime date_start, LocalDateTime date_end) {
         this.title = title;
         this.description = description;
         this.source_uri = source_uri;
         this.name_location = name_location;
         this.typeOfEvent = type_of_event;
-
-    }
-
-    public Event(String title, String description, String name_location, String source_uri, String type_of_event, String date_start, String date_end) {
-        this.title = title;
-        this.description = description;
-        this.source_uri = source_uri;
-        this.name_location = name_location;
-        this.typeOfEvent = type_of_event;
-        date_start = "";
-        date_end = "";
-
-    }
-
-    public static ArrayList<Event> getEventList() {
-        return eventList;
-    }
-
-    public static void setEventList(ArrayList<Event> eventList) {
-        Event.eventList = eventList;
+        this.image_url = image_url;
+        this.date_start = date_start;
+        this.date_end = date_end;
     }
 
 
@@ -155,13 +125,14 @@ public class Event {
 
     public void show() {
 
-        System.out.println("title=" + title);
-        System.out.println("desc=" + description);
-        System.out.println("source_uri=" + source_uri);
-        System.out.println("name_location=" + name_location);
-        System.out.println("type_of_event=" + typeOfEvent);
-        System.out.println("date_start=" + date_start);
-        System.out.println("date_end=" + date_end);
+        System.out.println("title= " + title);
+        System.out.println("desc= " + description);
+        System.out.println("source_uri= " + source_uri);
+        System.out.println("name_location= " + name_location);
+        System.out.println("type_of_event= " + typeOfEvent);
+        System.out.println("date_start= " + date_start);
+        System.out.println("date_end= " + date_end);
+        System.out.println("image_url= " + image_url);
         System.out.println("--------------------");
     }
 

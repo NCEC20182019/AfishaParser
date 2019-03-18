@@ -5,6 +5,7 @@ import com.sun.org.apache.xpath.internal.SourceTree;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 
+@Deprecated
 public class TimeParser {
     public int getMonth(String nameOfMonth){
         final String[] MONTHS = {"пустое значение, чтоб январь был под индексом 1",
@@ -34,6 +35,9 @@ public class TimeParser {
         }
         return new int[]{p1, p2, p3};
     }
+
+
+
     public LocalDateTime toDate(String afishaRubbish) throws ParseException {
         //https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
         LocalDateTime date;

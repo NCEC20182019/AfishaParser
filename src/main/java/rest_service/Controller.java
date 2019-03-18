@@ -28,18 +28,18 @@ public class Controller {
         Parser p = ParserFactory.getParser(typeOfEvent);
         switch (typeOfEvent) {
             case "cinema" : {
-                return p.parse(Parser.getDocument(AFISHA_CINEMA_URL));
+                return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
-                return p.parse(Parser.getDocument(AFISHA_EXHIBITION_URL));
+                return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL));
             }
 
             case "theatre" : {
-                return p.parse(Parser.getDocument(AFISHA_THEATRE_URL));
+                return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL));
             }
 
             case "concert" : {
-                return p.parse(Parser.getDocument(AFISHA_CONCERT_URL));
+                return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL));
             }
         }
 
@@ -53,12 +53,22 @@ public class Controller {
     }
 
 //заставляет отправить обновление в EventService
-    @RequestMapping(value = "/parse_all")
-    public void postEvents() throws IOException {
-        PostToEventService.postAll(ParserFactory.getParser("cinema").parse(Parser.getDocument(AFISHA_CINEMA_URL)));
-        PostToEventService.postAll(ParserFactory.getParser("exhibition").parse(Parser.getDocument(AFISHA_EXHIBITION_URL)));
-        PostToEventService.postAll(ParserFactory.getParser("theatre").parse(Parser.getDocument(AFISHA_THEATRE_URL)));
-        PostToEventService.postAll(ParserFactory.getParser("concert").parse(Parser.getDocument(AFISHA_CONCERT_URL)));
+    @RequestMapping(value = "/parse_all", method = RequestMethod.POST)
+    public String postEvents(@RequestBody String urlWhatToParse) throws IOException {
+        if(urlWhatToParse.equals("https://www.afisha.ru")) {
+            try {
+                PostToEventService.postAll(ParserFactory.getParser("cinema").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
+                PostToEventService.postAll(ParserFactory.getParser("exhibition").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
+                PostToEventService.postAll(ParserFactory.getParser("theatre").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
+                PostToEventService.postAll(ParserFactory.getParser("concert").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
+                return "OK";
+            }
+            catch (Exception e){
+                return "Someting gone wrong";
+            }
+
+        }
+        return "error";
     }
 
 

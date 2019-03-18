@@ -33,10 +33,10 @@ public class MockTest {
     private final static String THEATRE_CLASS_TIME = "list__item-desc-time";
 
 
-
+/*
     private static ArrayList<Event> prepareCinemaList(){
         ArrayList<Event> evs = new ArrayList<>();
-        Event ev = new Event("Т-34", "Еще одна патриотическая драма про танк, теперь с Александром Петровым",
+       Event ev = new Event("Т-34", "Еще одна патриотическая драма про танк, теперь с Александром Петровым",
                 "", "https://www.afisha.ru/movie/230914/", "cinema");
         evs.add(ev);
         ev = new Event("Полицейский с Рублевки. Новогодний беспредел", "Герои популярного сериала теперь и в кино",
@@ -109,7 +109,7 @@ public class MockTest {
         evs.add(ev);
         return evs;
     }
-
+*/
 /*
     @Test
     public void TestCinemaParser1() throws IOException {
