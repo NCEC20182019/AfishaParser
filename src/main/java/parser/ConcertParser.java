@@ -34,7 +34,6 @@ public class ConcertParser extends Parser {
             location = el.child(0).child(3).child(0).attr("content");
             image_url = el.child(0).child(5).attr("content");
             source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
-            System.out.println(source_url);
             events.add(new Event(title, source_url, "", location, TYPE_OF_EVENT_CONCERT,image_url, date_start, null));
         }
 

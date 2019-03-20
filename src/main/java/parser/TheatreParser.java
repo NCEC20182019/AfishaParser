@@ -1,6 +1,5 @@
 package parser;
 
-import com.sun.deploy.security.ValidationState;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -31,15 +30,6 @@ public class TheatreParser extends Parser {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        for( Event e : new TheatreParser().parseUsingHtmlAttributes(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_theatre/?view=list")))
-            e.show();
-    }
-
-
-
-
-
 
 
 
@@ -57,6 +47,7 @@ public class TheatreParser extends Parser {
     public String getLocation(Element e) {
         return e.child(0).text();// Если с театром проблема, то она здесь. Чекай html. Скорее всего поменялось местоположение инфы о локации
     }
+
 
     @Override
     public LocalDateTime getTime(Event event, Element e) {
