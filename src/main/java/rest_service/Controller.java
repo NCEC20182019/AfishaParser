@@ -55,21 +55,24 @@ public class Controller {
 //заставляет отправить обновление в EventService
     @RequestMapping(value = "/parse_all", method = RequestMethod.POST)
     public String postEvents(@RequestBody String urlWhatToParse) throws IOException {
-        if(urlWhatToParse.equals("https://www.afisha.ru")) {
-            try {
+        try {
+        switch (urlWhatToParse) {
+            case AFISHA_CINEMA_URL :
                 PostToEventService.postAll(ParserFactory.getParser("cinema").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
+            case AFISHA_EXHIBITION_URL :
                 PostToEventService.postAll(ParserFactory.getParser("exhibition").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
+            case AFISHA_THEATRE_URL :
                 PostToEventService.postAll(ParserFactory.getParser("theatre").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
+            case AFISHA_CONCERT_URL :
                 PostToEventService.postAll(ParserFactory.getParser("concert").parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
-                return "OK";
-            }
-            catch (Exception e){
-                return "Someting gone wrong";
-            }
-
         }
-        return "error";
+
+                return "OK";
+        }catch (Exception e){
+            return "Someting gone wrong";
+        }
     }
+
 
 
 }
