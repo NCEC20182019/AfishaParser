@@ -1,5 +1,7 @@
 package rest_service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import parser.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ public class Controller {
     private final static String AFISHA_EXHIBITION_URL = "https://www.afisha.ru/voronezh/schedule_exhibition/?view=list";
     private final static String AFISHA_THEATRE_URL = "https://www.afisha.ru/voronezh/schedule_theatre/?view=list";
     private final static String AFISHA_CONCERT_URL = "https://www.afisha.ru/voronezh/schedule_concert/?view=list";
+
+    private Logger logger = LoggerFactory.getLogger(Controller.class);
 
 
 
@@ -78,8 +82,10 @@ public class Controller {
                     break;
                 }
         }
-                return "OK";
+            logger.info(urlWhatToParse + " parsed");
+            return "OK";
         }catch (Exception e){
+            logger.warn("couldn't parse " + urlWhatToParse);
             return "Someting gone wrong";
         }
     }

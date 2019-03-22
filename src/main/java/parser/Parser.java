@@ -9,9 +9,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class Parser{
     protected final static String AFISHA_URL = "https://www.afisha.ru";
+    private static Logger logger = LoggerFactory.getLogger(Parser.class);
 
     public abstract ArrayList<Event> getEvents(Document afisha);
 
@@ -21,13 +24,22 @@ public abstract class Parser{
     }
 
 
+    public static Document getDocument(String url){
 
-
-
+        Connection con = Jsoup.connect(url);
+        Document afisha = null;
+        try {
+            afisha = con.get();
+            logger.info("html uploaded");
+        } catch (IOException e) {
+            logger.warn("can't upload html from" + url);
+            e.printStackTrace();
+        }
+        return afisha;
+    }
 
     @Deprecated
     public abstract Elements[] getElems(Document afisha);
-
     /**
      *
      * @param e элемент, в котором описывается местоположение
@@ -36,13 +48,6 @@ public abstract class Parser{
      */
     @Deprecated
     public abstract String getLocation(Element e);
-
-    public static Document getDocument(String url) throws IOException{
-
-        Connection con = Jsoup.connect(url);
-        Document afisha = con.get();
-        return afisha;
-    }
     @Deprecated
     public abstract LocalDateTime getTime(Event event, Element e);
     @Deprecated

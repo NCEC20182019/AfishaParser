@@ -3,6 +3,8 @@ package parser;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -18,6 +20,8 @@ public class ConcertParser extends Parser {
     private final static String TYPE_OF_EVENT_CONCERT = "concert";
     private final static String CONCERT_CLASS_TO_PARSE = "new-list__item concert-item";
 
+    private static Logger logger = LoggerFactory.getLogger(ConcertParser.class);
+
 
     @Override
     public ArrayList<Event> getEvents(Document afisha) {
@@ -28,13 +32,18 @@ public class ConcertParser extends Parser {
         Elements elems = afisha.getElementsByAttributeValue("class", CONCERT_CLASS_TO_PARSE);
 
 
-        for( Element el : elems) {
-            title = el.child(0).child(0).attr("content");
-            date_start = LocalDateTime.parse(el.child(0).child(2).attr("content"));
-            location = el.child(0).child(3).child(0).attr("content");
-            image_url = el.child(0).child(5).attr("content");
-            source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
-            events.add(new Event(title, source_url, "", location, TYPE_OF_EVENT_CONCERT,image_url, date_start, null));
+        try {
+            for (Element el : elems) {
+                title = el.child(0).child(0).attr("content");
+                date_start = LocalDateTime.parse(el.child(0).child(2).attr("content"));
+                location = el.child(0).child(3).child(0).attr("content");
+                image_url = el.child(0).child(5).attr("content");
+                source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
+                events.add(new Event(title, source_url, "", location, TYPE_OF_EVENT_CONCERT, image_url, date_start, null));
+            }
+            logger.info("Concerts from afisha.ru were parsed");
+        } catch (Exception e){
+            logger.warn("placement of data in html code was changed");
         }
 
         return events;
