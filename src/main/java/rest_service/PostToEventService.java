@@ -1,6 +1,6 @@
 package rest_service;
 
-import parser.Event;
+import parsers.Event;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

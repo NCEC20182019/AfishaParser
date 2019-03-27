@@ -1,11 +1,9 @@
-package parser;
-
-import com.sun.org.apache.xpath.internal.SourceTree;
+package parsers.afisha_parser;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
 
-@Deprecated
+
 public class TimeParser {
     public int getMonth(String nameOfMonth){
         final String[] MONTHS = {"пустое значение, чтоб январь был под индексом 1",
@@ -36,9 +34,23 @@ public class TimeParser {
         return new int[]{p1, p2, p3};
     }
 
+    //1 июня 2019 в 14:00 (МСК) 1559386800
+    public LocalDateTime toDate(String dateInString){
+        LocalDateTime date;
+        int hour, min, day, month, year;
 
+        String[] tmpStr = dateInString.split(" ");
+        String[] time = tmpStr[4].split(":");
+        day = Integer.valueOf(tmpStr[0]);
+        month = getMonth(tmpStr[1]);
+        year = Integer.valueOf(tmpStr[2]);
+        hour = Integer.valueOf(time[0]);
+        min = Integer.valueOf(time[1]);
+        date = LocalDateTime.of(year, month, day, hour, min, 0, 0);
+        return date;
+    }
 
-    public LocalDateTime toDate(String afishaRubbish) throws ParseException {
+    /*public LocalDateTime toDate(String afishaRubbish) throws ParseException {
         //https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
         LocalDateTime date;
 
@@ -126,7 +138,7 @@ public class TimeParser {
             return date;
         }
 
-    }
+    }*/
 
     public static void main(String[] args) throws ParseException {
         TimeParser p1 = new TimeParser();

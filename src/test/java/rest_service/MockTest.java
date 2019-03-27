@@ -1,15 +1,6 @@
 package rest_service;
 
-import parser.*;
-import parser.Event;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.junit.Test;
 
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 

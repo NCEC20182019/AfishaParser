@@ -1,4 +1,4 @@
-package parser;
+package parsers;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import parsers.updates_for_events.Dictionary;
 
 public abstract class Parser{
     protected final static String AFISHA_URL = "https://www.afisha.ru";
@@ -31,11 +32,12 @@ public abstract class Parser{
         try {
             afisha = con.get();
             logger.info("html uploaded");
+            return afisha;
         } catch (IOException e) {
-            logger.warn("can't upload html from" + url);
-            e.printStackTrace();
+            logger.error("can't upload html from" + url, e);
+            throw new RuntimeException();
         }
-        return afisha;
+
     }
 
     @Deprecated
@@ -51,7 +53,7 @@ public abstract class Parser{
     @Deprecated
     public abstract LocalDateTime getTime(Event event, Element e);
     @Deprecated
-    public abstract String getTypeOfEvent();
+    public abstract Dictionary.TypeOfEvent getTypeOfEvent();
 
     /**
      * Парсер, основанный на html class'ах
@@ -63,7 +65,7 @@ public abstract class Parser{
     public ArrayList<Event> parseUsingHtmlClasses(Document afisha){
         ArrayList<Event> events = new ArrayList<>();
         String eventUrl, eventName, location, description, date_start, date_end;
-        String type_of_event = getTypeOfEvent();
+        Dictionary.TypeOfEvent type_of_event = getTypeOfEvent();
         Elements[] elems = getElems(afisha);
 
         //elems[0] содержит имена и урл

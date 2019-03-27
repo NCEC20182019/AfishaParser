@@ -1,23 +1,23 @@
-package parser;
+package parsers.afisha_parser;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import parsers.Event;
+import parsers.Parser;
+import parsers.updates_for_events.Dictionary;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.ListIterator;
+
+import static parsers.updates_for_events.Dictionary.TypeOfEvent.THEATRE;
 
 public class TheatreParser extends Parser {
     private final static String THEATRE_CLASS_NAMES = "list__item-name";
     private final static String THEATRE_CLASS_INFOS = "list__item-desc-list";
     private final static String THEATRE_CLASS_TIMES = "list__item-desc-time";
-
-    private final static String TYPE_OF_EVENT_THEATRE = "theatre";
 
     private final static String THEATRE_CLASS_TO_PARSE = "new-list__item theatre-item";
     private static Logger logger = LoggerFactory.getLogger(TheatreParser.class);
@@ -65,7 +65,7 @@ public class TheatreParser extends Parser {
             if(e.text().length() == 12 || e.text().length() == 13)
                 return new TimeParser().toDate( e.text());//следствие уникального
             else return new TimeParser().toDate(e.text().substring(0, 12));//В МАРТЕ ВСЁ ИЗМЕНИТСЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("shit happens with " + e.text());
             return null;
@@ -73,8 +73,8 @@ public class TheatreParser extends Parser {
     }
 
     @Override
-    public String getTypeOfEvent() {
-        return TYPE_OF_EVENT_THEATRE;
+    public Dictionary.TypeOfEvent getTypeOfEvent() {
+        return THEATRE;
     }
 
 }

@@ -1,7 +1,8 @@
-package parser;
+package parsers;
+
+import parsers.updates_for_events.Dictionary;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Event {
 
@@ -10,7 +11,7 @@ public class Event {
     private String description;
     private String source_uri;
     private String name_location;
-    private String typeOfEvent;
+    private Dictionary.TypeOfEvent typeOfEvent;
     private LocalDateTime date_start;
     private LocalDateTime date_end;
     private String image_url;
@@ -39,11 +40,11 @@ public class Event {
         this.date_end = date_end;
     }
 
-    public String getTypeOfEvent() {
+    public Dictionary.TypeOfEvent getTypeOfEvent() {
         return typeOfEvent;
     }
 
-    public void setTypeOfEvent(String typeOfEvent) {
+    public void setTypeOfEvent(Dictionary.TypeOfEvent typeOfEvent) {
         this.typeOfEvent = typeOfEvent;
     }
 
@@ -86,13 +87,12 @@ public class Event {
         description="";
         source_uri="";
         name_location ="";
-        typeOfEvent="";
         image_url="=";
     }
 
 
 
-    public Event(String title, String source_uri, String description, String name_location, String type_of_event, String image_url,
+    public Event(String title, String source_uri, String description, String name_location, Dictionary.TypeOfEvent type_of_event, String image_url,
                  LocalDateTime date_start, LocalDateTime date_end) {
         this.title = title;
         this.description = description;

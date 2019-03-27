@@ -1,24 +1,24 @@
-package parser;
+package parsers.afisha_parser;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import parsers.Event;
+import parsers.Parser;
+import parsers.updates_for_events.Dictionary;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.ListIterator;
+
+import static parsers.updates_for_events.Dictionary.TypeOfEvent.EXHIBITION;
 
 public class ExhibitionParser extends Parser {
     private final static String EXHIBITION_CLASS_NAMES = "list__item-name";
     private final static String EXHIBITION_CLASS_INFOS = "list__item-info";
     private final static String EXHIBITION_CLASS_TIMES = "list__item-desc-time";
 
-    private final static String TYPE_OF_EVENT_EXHIBITION = "exhibition";
     private final static String EXHIBITION_CLASS_TO_PARSE = "new-list__item exhibition-item";
 
     private static Logger logger = LoggerFactory.getLogger(ExhibitionParser.class);
@@ -41,7 +41,7 @@ public class ExhibitionParser extends Parser {
                 description = el.child(0).child(7).attr("content");
                 source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
 
-                events.add(new Event(title, source_url, description, location, TYPE_OF_EVENT_EXHIBITION, image_url, date_start, date_end));
+                events.add(new Event(title, source_url, description, location, EXHIBITION, image_url, date_start, date_end));
             }
             logger.info("Exhibitions from afisha.ru were parsed");
         }catch (Exception e){
@@ -76,15 +76,15 @@ public class ExhibitionParser extends Parser {
         try {
             if(! e.text().substring(0, 2).equals("с ")) event.setDate_end(new TimeParser().toDate(e.text()));
                 else event.setDate_start(new TimeParser().toDate(e.text().substring(2)));
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public String getTypeOfEvent() {
-        return TYPE_OF_EVENT_EXHIBITION;
+    public Dictionary.TypeOfEvent getTypeOfEvent() {
+        return EXHIBITION;
     }
 
 }

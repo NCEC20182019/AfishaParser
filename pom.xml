@@ -78,6 +78,12 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
 
+        <dependency>
+            <groupId>com.vk.api</groupId>
+            <artifactId>sdk</artifactId>
+            <version>0.5.12</version>
+        </dependency>
+
 
 
 
