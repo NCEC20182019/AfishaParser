@@ -44,12 +44,14 @@ public class ConcertParser extends Parser {
                 image_url = el.child(0).child(5).attr("content");
                 source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
                 events.add(new Event(title, source_url, "", location, CONCERT, image_url, date_start, null));
+                events.get(events.size() - 1).setTags();
             }
             logger.info("Concerts from afisha.ru were parsed");
         } catch (Exception e){
             logger.warn("placement of data in html code was changed", e);
         }
-
+        for (Event e : events)
+            e.setTags();
         return events;
     }
 

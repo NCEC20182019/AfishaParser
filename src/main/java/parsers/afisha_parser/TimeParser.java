@@ -3,7 +3,7 @@ package parsers.afisha_parser;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 
-
+@Deprecated
 public class TimeParser {
     public int getMonth(String nameOfMonth){
         final String[] MONTHS = {"пустое значение, чтоб январь был под индексом 1",

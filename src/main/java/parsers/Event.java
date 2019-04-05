@@ -3,6 +3,7 @@ package parsers;
 import parsers.updates_for_events.Dictionary;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Event {
 
@@ -15,6 +16,43 @@ public class Event {
     private LocalDateTime date_start;
     private LocalDateTime date_end;
     private String image_url;
+    private ArrayList<String> tags;
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags() {
+        tags = new ArrayList<>();
+        tags.add("#" + title.replaceAll(" ", "")
+                            .replaceAll("«","")
+                            .replaceAll("»",""));//0 полное имя
+        tags.add("#Воронеж");//1 и 2 теги всегда с городом
+        tags.add("#Voronezh");
+        tags.add("#" + typeOfEvent.name()); //3 и 4 тег с типом ивента
+        tags.add("#" + Dictionary.typeOfEventToCyrillic(typeOfEvent).name());
+        if (name_location.equals(Dictionary.toLatin(name_location)))
+            tags.add("#" + name_location.replaceAll(" ", "")
+                                        .replaceAll("«","")
+                                        .replaceAll("»",""));
+        else {
+            tags.add("#" + name_location.replaceAll(" ", "")
+                                        .replaceAll("«","")
+                                        .replaceAll("»",""));
+            tags.add("#" + Dictionary.toLatin(name_location .replaceAll(" ", "")
+                                                            .replaceAll("«","")
+                                                            .replaceAll("»","")));
+        }
+
+        String[] partsOfName = title.split( " ");
+        for (String s : partsOfName){//тегом может быть часть названия ивента
+            if(s.equals(Dictionary.toLatin(s))) tags.add("#" + s);
+                else {
+                tags.add("#" + s);
+                tags.add("#" + Dictionary.toLatin(s));
+            }
+        }
+    }
 
     public String getImage_url() {
         return image_url;
@@ -133,6 +171,9 @@ public class Event {
         System.out.println("date_start= " + date_start);
         System.out.println("date_end= " + date_end);
         System.out.println("image_url= " + image_url);
+        for (String tag : tags)
+            System.out.print(tag);
+        System.out.println();
         System.out.println("--------------------");
     }
 

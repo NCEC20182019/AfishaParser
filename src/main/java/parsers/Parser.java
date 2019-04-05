@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,7 +13,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import parsers.afisha_parser.ConcertParser;
 import parsers.updates_for_events.Dictionary;
+import parsers.vk_parser.VkApiParser.VkEventsApiParser;
 
 public abstract class Parser{
     protected final static String AFISHA_URL = "https://www.afisha.ru";
@@ -21,7 +25,22 @@ public abstract class Parser{
 
     //Основной метод для парсинга afisha.ru
     public ArrayList<Event> parseUsingHtmlAttributes(Document afisha){
+
         return getEvents(afisha);
+    }
+
+    public static void main(String[] args) {
+        for (Event e : new ConcertParser().parseUsingHtmlAttributes(Parser
+                .getDocument("https://www.afisha.ru/voronezh/schedule_concert/?view=list")))
+            e.show();
+        try {
+            for (Event e : new VkEventsApiParser().getEvents())
+                e.show();
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
     }
 
 

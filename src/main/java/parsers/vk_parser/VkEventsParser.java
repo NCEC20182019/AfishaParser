@@ -16,6 +16,7 @@ import java.util.List;
 
 import static parsers.updates_for_events.Dictionary.TypeOfEvent.VK_EVENT;
 
+@Deprecated
 public class VkEventsParser extends Parser {
     private final static String VK_EVENT_CLASS_TO_PARSE = "event_item";
     private static final Logger logger = LoggerFactory.getLogger(VkEventsParser.class);

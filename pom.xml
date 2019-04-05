@@ -84,6 +84,8 @@
             <version>0.5.12</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.ibm.icu/icu4j -->
+
 
 
 

@@ -1,10 +1,13 @@
 package rest_service;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import parsers.*;
 import org.springframework.web.bind.annotation.*;
 import parsers.updates_for_events.Dictionary;
+import parsers.vk_parser.VkApiParser.VkEventsApiParser;
 
 
 import java.io.IOException;
@@ -48,7 +51,13 @@ public class Controller {
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL));
             }
             case "vk_event" : {
-                return p.parseUsingHtmlAttributes(Parser.getDocument(VK_EVENT_URL));
+                try {
+                    return new VkEventsApiParser().getEvents();
+                } catch (ClientException e) {
+                    e.printStackTrace();
+                } catch (ApiException e) {
+
+                }
             }
         }
 
