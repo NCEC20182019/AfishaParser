@@ -13,39 +13,32 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import parsers.afisha_parser.ConcertParser;
 import parsers.updates_for_events.Dictionary;
 import parsers.vk_parser.VkApiParser.VkEventsApiParser;
+import rest_service.PostToEventService;
+
+import static parsers.updates_for_events.Dictionary.TypeOfEvent.*;
 
 public abstract class Parser{
     protected final static String AFISHA_URL = "https://www.afisha.ru";
+    private final static String AFISHA_CINEMA_URL = "https://www.afisha.ru/voronezh/schedule_cinema/?view=list";
+    private final static String AFISHA_EXHIBITION_URL = "https://www.afisha.ru/voronezh/schedule_exhibition/?view=list";
+    private final static String AFISHA_THEATRE_URL = "https://www.afisha.ru/voronezh/schedule_theatre/?view=list";
+    private final static String AFISHA_CONCERT_URL = "https://www.afisha.ru/voronezh/schedule_concert/?view=list";
+    private final static String VK_EVENT_URL = "https://vkevent.ru/city42/popular/";
+    //вместо базы данных
     private static Logger logger = LoggerFactory.getLogger(Parser.class);
 
     public abstract ArrayList<Event> getEvents(Document afisha);
 
     //Основной метод для парсинга afisha.ru
     public ArrayList<Event> parseUsingHtmlAttributes(Document afisha){
-
         return getEvents(afisha);
-    }
 
-    public static void main(String[] args) {
-        for (Event e : new ConcertParser().parseUsingHtmlAttributes(Parser
-                .getDocument("https://www.afisha.ru/voronezh/schedule_concert/?view=list")))
-            e.show();
-        try {
-            for (Event e : new VkEventsApiParser().getEvents())
-                e.show();
-        } catch (ClientException e) {
-            e.printStackTrace();
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }
     }
 
 
     public static Document getDocument(String url){
-
         Connection con = Jsoup.connect(url);
         Document afisha = null;
         try {
@@ -57,6 +50,23 @@ public abstract class Parser{
             throw new RuntimeException();
         }
 
+    }
+
+    public static ArrayList<Event> parseEveryting() {
+        ArrayList<Event> allEvents = new ArrayList<>();
+        allEvents.addAll(ParserFactory.getParser(CINEMA).parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
+        allEvents.addAll(ParserFactory.getParser(EXHIBITION).parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
+        allEvents.addAll(ParserFactory.getParser(THEATRE).parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
+        allEvents.addAll(ParserFactory.getParser(CONCERT).parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
+
+        try {
+            allEvents.addAll(new VkEventsApiParser().getEvents());
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return allEvents;
     }
 
     @Deprecated

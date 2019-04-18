@@ -37,22 +37,32 @@ public class Controller {
         Parser p = ParserFactory.getParser(Dictionary.getTypeOfEventByName(typeOfEvent));
         switch (typeOfEvent) {
             case "cinema" : {
+                PostToEventService.postAll(ParserFactory.getParser(CINEMA)
+                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
+                PostToEventService.postAll(ParserFactory.getParser(EXHIBITION)
+                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL));
             }
 
             case "theatre" : {
+                PostToEventService.postAll(ParserFactory.getParser(THEATRE)
+                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL));
             }
 
             case "concert" : {
+                PostToEventService.postAll(ParserFactory.getParser(CONCERT)
+                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL));
             }
             case "vk_event" : {
                 try {
+                    PostToEventService.postAll(new VkEventsApiParser().getEvents());
                     return new VkEventsApiParser().getEvents();
+
                 } catch (ClientException e) {
                     e.printStackTrace();
                 } catch (ApiException e) {
@@ -96,8 +106,7 @@ public class Controller {
                     break;
                 }
                 case VK_EVENT_URL : {
-                    PostToEventService.postAll(ParserFactory.getParser(VK_EVENT)
-                            .parseUsingHtmlAttributes(Parser.getDocument(VK_EVENT_URL)));
+                    PostToEventService.postAll(new VkEventsApiParser().getEvents());
                 }
         }
             logger.info(urlWhatToParse + " parsed");

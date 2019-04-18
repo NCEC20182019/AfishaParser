@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PostToEventService {
 //Выставить необходимый урл
     private static final String TEST_EVENTS_SERVICE_URL = "http://localhost:8082/Event";
-    private static final String REAL_EVENTS_SERVICE_URL = "http://localhost:8081/event/create/";
+    private static final String REAL_EVENTS_SERVICE_URL = "http://localhost:8092/event/create/";
 
     private PostToEventService(){};
 
@@ -23,7 +23,7 @@ public class PostToEventService {
         // Data attached to the request.
         HttpEntity<Event> requestBody = new HttpEntity<>(event, headers);
         // Send request with POST method.
-        Event e = rt.postForObject(TEST_EVENTS_SERVICE_URL, requestBody, Event.class);
+        Event e = rt.postForObject(REAL_EVENTS_SERVICE_URL, requestBody, Event.class);
 //для теста
     }
 

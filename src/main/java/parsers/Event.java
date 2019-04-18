@@ -24,32 +24,32 @@ public class Event {
 
     public void setTags() {
         tags = new ArrayList<>();
-        tags.add("#" + title.replaceAll(" ", "")
+        tags.add("%23" + title.replaceAll(" ", "")
                             .replaceAll("«","")
                             .replaceAll("»",""));//0 полное имя
-        tags.add("#Воронеж");//1 и 2 теги всегда с городом
-        tags.add("#Voronezh");
-        tags.add("#" + typeOfEvent.name()); //3 и 4 тег с типом ивента
-        tags.add("#" + Dictionary.typeOfEventToCyrillic(typeOfEvent).name());
+        tags.add("%23Воронеж");//1 и 2 теги всегда с городом
+        tags.add("%23Voronezh");
+        tags.add("%23" + typeOfEvent.name()); //3 и 4 тег с типом ивента
+        tags.add("%23" + Dictionary.typeOfEventToCyrillic(typeOfEvent).name());
         if (name_location.equals(Dictionary.toLatin(name_location)))
-            tags.add("#" + name_location.replaceAll(" ", "")
+            tags.add("%23" + name_location.replaceAll(" ", "")
                                         .replaceAll("«","")
                                         .replaceAll("»",""));
         else {
-            tags.add("#" + name_location.replaceAll(" ", "")
+            tags.add("%23" + name_location.replaceAll(" ", "")
                                         .replaceAll("«","")
                                         .replaceAll("»",""));
-            tags.add("#" + Dictionary.toLatin(name_location .replaceAll(" ", "")
+            tags.add("%23" + Dictionary.toLatin(name_location .replaceAll(" ", "")
                                                             .replaceAll("«","")
                                                             .replaceAll("»","")));
         }
 
         String[] partsOfName = title.split( " ");
         for (String s : partsOfName){//тегом может быть часть названия ивента
-            if(s.equals(Dictionary.toLatin(s))) tags.add("#" + s);
+            if(s.equals(Dictionary.toLatin(s))) tags.add("%23" + s);
                 else {
-                tags.add("#" + s);
-                tags.add("#" + Dictionary.toLatin(s));
+                tags.add("%23" + s);
+                tags.add("%23" + Dictionary.toLatin(s));
             }
         }
     }
