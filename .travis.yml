@@ -8,7 +8,7 @@ notifications:
     on_success: always
 addons:
   ssh_known_hosts:
-  - 142.93.98.12
+  - 165.22.74.27
   - lemmeknow.tk
 branches:
   only:
@@ -17,7 +17,7 @@ env:
   global:
   - REMOTEAPPDIR=/home/deploy/nc-project
   - REMOTEUSER=deploy
-  - REMOTEHOST=142.93.98.12
+  - REMOTEHOST=165.22.74.27
 before_install:
 - openssl aes-256-cbc -K $encrypted_373fcba1b673_key -iv $encrypted_373fcba1b673_iv
   -in deploy.enc -out deploy -d
