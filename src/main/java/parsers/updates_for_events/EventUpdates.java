@@ -36,18 +36,20 @@ public class EventUpdates {
     public static void main(String[] args) {
         ArrayList<EventUpdates> allUpdates = new ArrayList<>();
         int i = 0;
-        ArrayList<Event> events = new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list"));
+        ArrayList<Event> events = Parser.parseEveryting();
+
+                //new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list"));
                 //Parser.parseEveryting();
         System.out.println("Events size=" + events.size());
-        //for(Event e : events){
-        //for(int j = 0; j < 3; j++){
+        for(Event e : events){
             System.out.println("Event #" + i++);
-            allUpdates.addAll(EventUpdates.findUpdatesForEventInTwitter(events.get(0)));
-        //}
+            for(EventUpdates eu : EventUpdates.findUpdatesForEventInTwitter(e))
+                eu.show();
+        }
         //101 апдейт на 7 тегов!!! Как такое может быть????????
-        System.out.println("allUpdates size=" + allUpdates.size());
+        /*System.out.println("allUpdates size=" + allUpdates.size());
         for( EventUpdates eu : allUpdates)
-            eu.show();
+            eu.show();*/
     }
 
     public String getUrlToTweet() {
@@ -82,7 +84,7 @@ public class EventUpdates {
     }
     public void show(){
         System.out.println("=================================================");
-        event.show();
+        System.out.println(event.getTitle());
         System.out.println(urlToTweet);
         System.out.println(textFromTweet);
         System.out.println(urlToPicFromTweet);

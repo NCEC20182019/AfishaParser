@@ -6,7 +6,12 @@
     <groupId>org.springframework</groupId>
     <artifactId>AfishaParserService</artifactId>
     <version>0.1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
+    <properties>
+        <java.version>1.8</java.version>
+        <!-- The main class to start by executing java -jar -->
+        <start-class>rest_service.Application</start-class>
+    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -103,10 +108,6 @@
 
 
     </dependencies>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
 
     <build>

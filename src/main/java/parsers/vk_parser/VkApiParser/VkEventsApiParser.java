@@ -33,7 +33,7 @@ import static parsers.updates_for_events.Dictionary.TypeOfEvent.VK_EVENT;
 //https://oauth.vk.com/authorize?client_id=6915826&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=code&v=5.92
 public class VkEventsApiParser{
 
-    private final static String ACCESS_TOKEN = "8f3a1861934daed00ec9fd2f2fdf8515b4d376ffb88d32a26e1790d2ede8190183fa303b0969cb9d8efb5";
+    private final static String ACCESS_TOKEN = "97ea6a7ae75c619cbe62a6e5d6e941b35fe162ca64606039340052bb9241931456c622b6e147ce143e570";
     private final static String CODE = "d2db3be1fbf0693edc";
     private final static Integer APP_ID = 6915826;
     private final static String CLIENT_SECRET = "0J2wwocAJfuGrkcKUqxO";

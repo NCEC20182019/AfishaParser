@@ -1,0 +1,27 @@
+language: java
+jdk: oraclejdk8
+script: mvn clean install -B
+notifications:
+  slack:
+    rooms:
+      secure: im5zB8BeD+LnOgDUib01CsnP5gUA5UTpDn9jkGNoZn6JBgw1vjasmVc16LFWJfJvUKyg4t3gIsebYG4PGvwkD6SD/AV1GgaUtNAoIUopC9OcgxtSJYSD878GPTNxv4VFAp+eZV2HucC53MjTw5QzBiulfIuorYHoOUPiPtxRn5cvWbWRsz7SQYbOwbtrpAUxVKfJj+6ip2tp3oqGCrjS/0aBvBcXqB0s/FXZEEEItV5ZD4MwAiqOmRir/0wK8TBFpiGkhlCxapvHlMDxCXESTOyIyLAtud8GPLXt06kWkeXgfnCWyfHH/If5Pd5O8KyrnolkBHdQvt5KqQ3VYmUl8t8VN4Imlnu4mDZwXIRE8prjR6WWOa9FSorJsa5PWiinfH2bYlJ/IIA2fqEIccTdEc3FE+lk1gHs1yZhDqrDu95BzTvgqwesHLS73O2LXik7XZzCkv/OxAx22ynpZ9aJYfAbu0uJgc64Ywi80AjW3TxHpN/ZWstX0oyjjCGPwCKzDxTGLHXgRWL7pdzNxWZ7f/qsivCSLNsTFWc5ack5rxk52752Ktyd1sa2+nKdOWujBdmLJdWI/F0l9D9ug3PndpfTrcRJil7e5kovmQlR2jt61bhPuvKE27oiuPKjxy/b/UrRbqrDB96XmTPcU2niKiFGDzGa1GKilI89NAnDSxI=
+    on_success: always
+addons:
+  ssh_known_hosts:
+  - 165.22.74.27
+  - lemmeknow.tk
+branches:
+  only:
+  - master
+env:
+  global:
+  - REMOTEAPPDIR=/home/deploy/nc-project
+  - REMOTEUSER=deploy
+  - REMOTEHOST=165.22.74.27
+before_install:
+- openssl aes-256-cbc -K $encrypted_373fcba1b673_key -iv $encrypted_373fcba1b673_iv
+  -in deploy.enc -out deploy -d
+before_script:
+- chmod 600 deploy && mv deploy ~/.ssh/id_rsa
+after_success:
+- "./scripts/deploy.sh"
