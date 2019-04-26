@@ -45,11 +45,13 @@ public class Event {
         }
 
         String[] partsOfName = title.split( " ");
-        for (String s : partsOfName){//тегом может быть часть названия ивента
-            if(s.equals(Dictionary.toLatin(s))) tags.add("%23" + s);
+        if (partsOfName.length <= 4) {
+            for (String s : partsOfName) {//тегом может быть часть названия ивента
+                if (s.equals(Dictionary.toLatin(s))) tags.add("%23" + s);
                 else {
-                tags.add("%23" + s);
-                tags.add("%23" + Dictionary.toLatin(s));
+                    tags.add("%23" + s);
+                    tags.add("%23" + Dictionary.toLatin(s));
+                }
             }
         }
     }
