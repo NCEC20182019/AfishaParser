@@ -40,7 +40,7 @@ public class VkEventsParser extends Parser {
                 image_url = images.get(i).attr("src");
                 //location = locations.get(i).text();// координаты "51.674591, 39.201684". Есть траблы с некоторыми ивентами.
                 date_start = new TimeParser().toDate(dates.get(i).text());//добавить распознавание даты типа "28 марта 2019 в 19:00 (МСК) "
-                events.add(new Event(title, source_url, description, null, VK_EVENT, image_url, date_start, null));
+                //events.add(new Event(title, source_url, description, null, VK_EVENT, image_url, date_start, null));
             }
         }catch (Exception e){
             logger.error("something wrong", e);

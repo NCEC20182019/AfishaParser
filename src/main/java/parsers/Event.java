@@ -1,9 +1,12 @@
 package parsers;
 
 import parsers.updates_for_events.Dictionary;
+import parsers.vk_parser.VkApiParser.VkEventsApiParser;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Event {
 
@@ -13,14 +16,20 @@ public class Event {
     private String source_uri;
     private String name_location;
     private Dictionary.TypeOfEvent typeOfEvent;
-    private LocalDateTime date_start;
-    private LocalDateTime date_end;
+    //private LocalDateTime date_start;
+    //private LocalDateTime date_end;
+    private Date date_start;
+    private Date date_end;
     private String image_url;
     private ArrayList<String> tags;
+    private double latitude;//широта
+    private double longitude;//долгота
+    private String street_address;
 
     public ArrayList<String> getTags() {
         return tags;
     }
+
 
     public void setTags() {
         tags = new ArrayList<>();
@@ -60,10 +69,38 @@ public class Event {
         return image_url;
     }
 
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getStreet_address() {
+        return street_address;
+    }
+
+    public void setStreet_address(String street_address) {
+        this.street_address = street_address;
+    }
+
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
-
+/*
     public LocalDateTime getDate_start() {
         return date_start;
     }
@@ -79,6 +116,23 @@ public class Event {
     public void setDate_end(LocalDateTime date_end) {
         this.date_end = date_end;
     }
+*/
+    public Date getDate_start() {
+    return date_start;
+}
+
+    public void setDate_start(Date date_start) {
+        this.date_start = date_start;
+    }
+
+    public Date getDate_end() {
+        return date_end;
+    }
+
+    public void setDate_end(Date date_end) {
+        this.date_end = date_end;
+    }
+
 
     public Dictionary.TypeOfEvent getTypeOfEvent() {
         return typeOfEvent;
@@ -140,8 +194,25 @@ public class Event {
         this.name_location = name_location;
         this.typeOfEvent = type_of_event;
         this.image_url = image_url;
-        this.date_start = date_start;
-        this.date_end = date_end;
+
+        this.date_start = VkEventsApiParser.convertToDateViaInstant(date_start);
+        this.date_end = VkEventsApiParser.convertToDateViaInstant(date_end);
+    }
+    public Event(String title, String source_uri, String description, String name_location, double latitude, double longitude, String street_address, Dictionary.TypeOfEvent type_of_event, String image_url,
+                 LocalDateTime date_start, LocalDateTime date_end) {
+        this.title = title;
+        this.description = description;
+        this.source_uri = source_uri;
+        this.name_location = name_location;
+        this.typeOfEvent = type_of_event;
+        this.image_url = image_url;
+        this.date_start = VkEventsApiParser.convertToDateViaInstant(date_start);
+        this.date_end = VkEventsApiParser.convertToDateViaInstant(date_end);
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.street_address = street_address;
+        //костыль
+
     }
 
 
@@ -169,12 +240,15 @@ public class Event {
         System.out.println("desc= " + description);
         System.out.println("source_uri= " + source_uri);
         System.out.println("name_location= " + name_location);
+        System.out.println("street address= " + street_address);
+        System.out.println("latitude= " + latitude);
+        System.out.println("longitude= " + longitude);
         System.out.println("type_of_event= " + typeOfEvent);
         System.out.println("date_start= " + date_start);
         System.out.println("date_end= " + date_end);
         System.out.println("image_url= " + image_url);
-        for (String tag : tags)
-            System.out.print(tag);
+        //for (String tag : tags)
+            //System.out.print(tag);
         System.out.println();
         System.out.println("--------------------");
     }

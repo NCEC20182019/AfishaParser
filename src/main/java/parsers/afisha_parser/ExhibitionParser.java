@@ -75,8 +75,8 @@ public class ExhibitionParser extends Parser {
     public LocalDateTime getTime(Event event, Element e) {
 
         try {
-            if(! e.text().substring(0, 2).equals("с ")) event.setDate_end(new TimeParser().toDate(e.text()));
-                else event.setDate_start(new TimeParser().toDate(e.text().substring(2)));
+            //if(! e.text().substring(0, 2).equals("с ")) event.setDate_end(new TimeParser().toDate(e.text()));
+             //   else event.setDate_start(new TimeParser().toDate(e.text().substring(2)));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

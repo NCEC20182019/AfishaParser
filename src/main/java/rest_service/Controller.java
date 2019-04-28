@@ -55,12 +55,12 @@ public class Controller {
 
             case "concert" : {
                 //PostToEventService.postAll(ParserFactory.getParser(CONCERT)
-                      //  .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
+                 //       .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL));
             }
             case "vk_event" : {
                 try {
-                    //PostToEventService.postAll(new VkEventsApiParser().getEvents());
+                    PostToEventService.postAll(new VkEventsApiParser().getEvents());
                     return new VkEventsApiParser().getEvents();
 
                 } catch (ClientException e) {

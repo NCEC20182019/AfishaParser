@@ -116,8 +116,8 @@ public abstract class Parser{
 
              events.add(new Event(eventName, eventUrl, description, location, type_of_event, "", null, null));
             if(! type_of_event.equals("cinema")){
-                if(! type_of_event.equals("exhibition")) events.get(i).setDate_start(getTime(events.get(i),elems[2].get(i)));
-                    else getTime(events.get(i) ,elems[2].get(i));//как быть тут?
+                //if(! type_of_event.equals("exhibition")) events.get(i).setDate_start(getTime(events.get(i),elems[2].get(i)));
+                 //   else getTime(events.get(i) ,elems[2].get(i));//как быть тут?
             }
         }
 
