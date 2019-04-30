@@ -88,29 +88,36 @@ public class Controller {
             case AFISHA_CINEMA_URL : {
                 PostToEventService.postAll(ParserFactory.getParser(CINEMA)
                         .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
-                break;
+                logger.info(urlWhatToParse + " parsed");
+                return "OK";
             }
                 case AFISHA_EXHIBITION_URL : {
                     PostToEventService.postAll(ParserFactory.getParser(EXHIBITION)
                             .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
-                    break;
+                    logger.info(urlWhatToParse + " parsed");
+                    return "OK";
                 }
                 case AFISHA_THEATRE_URL : {
                     PostToEventService.postAll(ParserFactory.getParser(THEATRE)
                             .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
-                    break;
+                    logger.info(urlWhatToParse + " parsed");
+                    return "OK";
                 }
                 case AFISHA_CONCERT_URL : {
                     PostToEventService.postAll(ParserFactory.getParser(CONCERT)
                             .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
-                    break;
+                    logger.info(urlWhatToParse + " parsed");
+                    return "OK";
                 }
                 case VK_EVENT_URL : {
                     PostToEventService.postAll(new VkEventsApiParser().getEvents());
+                    logger.info(urlWhatToParse + " parsed");
+                    return "OK";
                 }
+
         }
-            logger.info(urlWhatToParse + " parsed");
-            return "OK";
+            return "Wrong parameter";
+
         }catch (Exception e){
             logger.warn("couldn't parse " + urlWhatToParse);
             return "Someting gone wrong";
