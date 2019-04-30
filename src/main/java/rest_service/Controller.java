@@ -4,6 +4,7 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import parsers.*;
 import org.springframework.web.bind.annotation.*;
 import parsers.updates_for_events.Dictionary;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import static parsers.updates_for_events.Dictionary.TypeOfEvent.*;
 
 @RestController
+@RequestMapping(value = "parser", produces = MediaType.APPLICATION_JSON_VALUE)
 public class Controller {
     private final static String AFISHA_CINEMA_URL = "https://www.afisha.ru/voronezh/schedule_cinema/?view=list";
     private final static String AFISHA_EXHIBITION_URL = "https://www.afisha.ru/voronezh/schedule_exhibition/?view=list";
@@ -31,14 +33,14 @@ public class Controller {
 
 
     //теперь в основном для тестирования т.к. есть POST в EventService
-    @RequestMapping(value = "/parser/events", method = RequestMethod.GET)
+    @RequestMapping(value = "/events", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Event> getEvents(@RequestParam(value = "type_of_event", required = true, defaultValue = "cinema") String typeOfEvent) throws IOException {
         Parser p = ParserFactory.getParser(Dictionary.getTypeOfEventByName(typeOfEvent));
         switch (typeOfEvent) {
             case "cinema" : {
-                //PostToEventService.postAll(ParserFactory.getParser(CINEMA)
-                  //      .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
+                PostToEventService.postAll(ParserFactory.getParser(CINEMA)
+                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
@@ -74,14 +76,14 @@ public class Controller {
         return new ArrayList<Event>();
     }
 //Для тестирования работоспособности postEvents
-    @RequestMapping(value = "/parser/event", method = RequestMethod.POST)
+    @RequestMapping(value = "/event", method = RequestMethod.POST)
     public Event testPostEvent(@RequestBody Event e){
         e.show();
         return e;
     }
 
 //заставляет отправить обновление в EventService
-    @RequestMapping(value = "/parser/parse", method = RequestMethod.POST)
+    @RequestMapping(value = "/parse", method = RequestMethod.POST)
     public String postEvents(@RequestBody String urlWhatToParse) throws IOException {
         try {
         switch (urlWhatToParse) {
@@ -119,7 +121,7 @@ public class Controller {
             return "Wrong parameter";
 
         }catch (Exception e){
-            logger.warn("couldn't parse " + urlWhatToParse);
+            logger.error("couldn't parse " + urlWhatToParse, e);
             return "Someting gone wrong";
         }
     }

@@ -10,4 +10,5 @@ target
 # Log file
 logs
 *.log
+vk.properties
 
