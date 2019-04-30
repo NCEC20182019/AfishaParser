@@ -31,7 +31,7 @@ public class Controller {
 
 
     //теперь в основном для тестирования т.к. есть POST в EventService
-    @RequestMapping(value = "/Events", method = RequestMethod.GET)
+    @RequestMapping(value = "/parser/events", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Event> getEvents(@RequestParam(value = "type_of_event", required = true, defaultValue = "cinema") String typeOfEvent) throws IOException {
         Parser p = ParserFactory.getParser(Dictionary.getTypeOfEventByName(typeOfEvent));
@@ -74,14 +74,14 @@ public class Controller {
         return new ArrayList<Event>();
     }
 //Для тестирования работоспособности postEvents
-    @RequestMapping(value = "/Event", method = RequestMethod.POST)
+    @RequestMapping(value = "/parser/event", method = RequestMethod.POST)
     public Event testPostEvent(@RequestBody Event e){
         e.show();
         return e;
     }
 
 //заставляет отправить обновление в EventService
-    @RequestMapping(value = "/parse_all", method = RequestMethod.POST)
+    @RequestMapping(value = "/parser/parse", method = RequestMethod.POST)
     public String postEvents(@RequestBody String urlWhatToParse) throws IOException {
         try {
         switch (urlWhatToParse) {

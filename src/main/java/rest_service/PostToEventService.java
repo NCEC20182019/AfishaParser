@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class PostToEventService {
 //Выставить необходимый урл
-    private static final String TEST_EVENT_SERVICE_URL = "http://localhost:8094/Event";
+    private static final String TEST_EVENT_SERVICE_URL = "http://localhost:8094/parser/event";
     private static final String REAL_EVENT_SERVICE_URL = "http://localhost:8092/event/create/";
     private static final String SERVER_EVENT_SERVICE_URL = "lemmeknow.tk:8092/event/create/";
 
