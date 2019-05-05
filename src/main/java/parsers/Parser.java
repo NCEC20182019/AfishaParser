@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import parsers.updates_for_events.Dictionary;
 import parsers.vk_parser.VkApiParser.VkEventsApiParser;
-import rest_service.PostToEventService;
 
 import static parsers.updates_for_events.Dictionary.TypeOfEvent.*;
 

@@ -15,12 +15,10 @@ import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.groups.responses.SearchResponse;
 import com.vk.api.sdk.queries.groups.GroupField;
 import parsers.Event;
-import rest_service.PostToEventService;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -104,8 +102,8 @@ public class VkEventsApiParser{
             e.show();
         //2020-05-22T10:32
         System.out.println(convertToDateViaInstant(LocalDateTime.now()));
-        //PostToEventService.post(new Event("TestEvent","https://www.baeldung.com/java-date-to-localdate-and-localdatetime", "test desc","test loc", 39.45464, 64.12313, "Pushkin Street, House of Kolotushkin", VK_EVENT, "https://www.baeldung.com/wp-content/themes/baeldung/icon/logo.svg",LocalDateTime.now(), LocalDateTime.now()));
-        //PostToEventService.post(new Event("TestEvent","https://www.baeldung.com/java-date-to-localdate-and-localdatetime", "test desc","test loc", 39.45464, 64.12313, "Pushkin Street, House of Kolotushkin", VK_EVENT, "https://www.baeldung.com/wp-content/themes/baeldung/icon/logo.svg",LocalDateTime.now(),LocalDateTime.now()));
+        //PostEventToEventService.postEvent(new Event("TestEvent","https://www.baeldung.com/java-date-to-localdate-and-localdatetime", "test desc","test loc", 39.45464, 64.12313, "Pushkin Street, House of Kolotushkin", VK_EVENT, "https://www.baeldung.com/wp-content/themes/baeldung/icon/logo.svg",LocalDateTime.now(), LocalDateTime.now()));
+        //PostEventToEventService.postEvent(new Event("TestEvent","https://www.baeldung.com/java-date-to-localdate-and-localdatetime", "test desc","test loc", 39.45464, 64.12313, "Pushkin Street, House of Kolotushkin", VK_EVENT, "https://www.baeldung.com/wp-content/themes/baeldung/icon/logo.svg",LocalDateTime.now(),LocalDateTime.now()));
 
 //(String title, String source_uri, String description, String name_location, double latitude, double longitude, String street_address, Dictionary.TypeOfEvent type_of_event, String image_url,LocalDateTime date_start, LocalDateTime date_end)
     }

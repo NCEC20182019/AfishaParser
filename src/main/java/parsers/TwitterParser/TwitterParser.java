@@ -7,7 +7,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import parsers.Event;
-import parsers.updates_for_events.EventUpdates;
+import parsers.updates_for_events.EventUpdate;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class TwitterParser {
     }
 //class="js-tweet-text-container"
 //class="content"
-    public ArrayList<EventUpdates> getEventUpdates(Event event){
+    public ArrayList<EventUpdate> getEventUpdates(Event event){
         Document doc = null;
         try {
             doc = getDocument(TWITTER_SEARCH_RESULT_FILENAME);
@@ -47,9 +47,11 @@ public class TwitterParser {
             logger.error("There is no " + TWITTER_SEARCH_RESULT_FILENAME, e);
             throw new RuntimeException();
         }
-        ArrayList<EventUpdates> upadates = new ArrayList<>();
+        ArrayList<EventUpdate> upadates = new ArrayList<>();
         String urlToTweet, textFromTweet, urlToPicFromTweet;
         Elements tweets = doc.getElementsByClass(CLASS_WITH_TWEETS);
+        //Вместо n должен быть event_id
+        int n = 0;
         for (Element e : tweets) {
             urlToTweet = TWITTER_URL + e.getElementsByClass(CLASS_WITH_TWEET_URL).attr("href");
             System.out.println(urlToTweet);
@@ -62,7 +64,7 @@ public class TwitterParser {
             }
             System.out.println(urlToPicFromTweet);
             System.out.println("=================================================================");
-            upadates.add(new EventUpdates(urlToTweet, textFromTweet, urlToPicFromTweet, event));
+            upadates.add(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event, n++));
         }
 
 
