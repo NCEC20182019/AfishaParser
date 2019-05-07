@@ -7,11 +7,13 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import parsers.Event;
+import parsers.EventDTO;
 import parsers.updates_for_events.EventUpdate;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TwitterParser {
 
@@ -38,7 +40,7 @@ public class TwitterParser {
     }
 //class="js-tweet-text-container"
 //class="content"
-    public ArrayList<EventUpdate> getEventUpdates(Event event){
+    public ArrayList<EventUpdate> getEventUpdates(EventDTO event){
         Document doc = null;
         try {
             doc = getDocument(TWITTER_SEARCH_RESULT_FILENAME);
@@ -64,7 +66,7 @@ public class TwitterParser {
             }
             System.out.println(urlToPicFromTweet);
             System.out.println("=================================================================");
-            upadates.add(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event, n++));
+            upadates.add(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event.getEvent_id(), new Date()));
         }
 
 
@@ -73,8 +75,8 @@ public class TwitterParser {
         return upadates;
     }
 
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
         TwitterParser tp = new TwitterParser();
         tp.getEventUpdates(new Event());
-    }
+    }*/
 }

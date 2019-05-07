@@ -8,16 +8,16 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
-public class PostToEventService {
+public class PostEventToEventService {
 //Выставить необходимый урл
     private static final String TEST_EVENT_SERVICE_URL    =  "http://localhost:8094/parser/event";
     private static final String REAL_EVENT_SERVICE_URL    =  "http://localhost:8092/event/create/";
     private static final String SERVER_EVENT_SERVICE_URL  =  "http://lemmeknow.tk:8092/event/create/";
     private static final String SERVER1_EVENT_SERVICE_URL =  "/event/create";
 
-    private PostToEventService(){};
+    private PostEventToEventService(){};
 
-    public static void  post(Event event){
+    public static void  postEvent(Event event){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -31,7 +31,7 @@ public class PostToEventService {
 
     public static void postAll(ArrayList<Event> events){
         for(Event e : events){
-            PostToEventService.post(e);
+            PostEventToEventService.postEvent(e);
         }
     }
 

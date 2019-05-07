@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Event {
-
-
     private String title;
     private String description;
     private String source_uri;
@@ -21,57 +19,17 @@ public class Event {
     private Date date_start;
     private Date date_end;
     private String image_url;
-    private ArrayList<String> tags;
     private double latitude;//широта
     private double longitude;//долгота
     private String street_address;
 
-    public ArrayList<String> getTags() {
-        return tags;
-    }
 
 
-    public void setTags() {
-        tags = new ArrayList<>();
-        tags.add("%23" + title.replaceAll(" ", "")
-                            .replaceAll("«","")
-                            .replaceAll("»",""));//0 полное имя
-        tags.add("%23Воронеж");//1 и 2 теги всегда с городом
-        tags.add("%23Voronezh");
-        tags.add("%23" + typeOfEvent.name()); //3 и 4 тег с типом ивента
-        tags.add("%23" + Dictionary.typeOfEventToCyrillic(typeOfEvent).name());
-        if (name_location.equals(Dictionary.toLatin(name_location)))
-            tags.add("%23" + name_location.replaceAll(" ", "")
-                                        .replaceAll("«","")
-                                        .replaceAll("»",""));
-        else {
-            tags.add("%23" + name_location.replaceAll(" ", "")
-                                        .replaceAll("«","")
-                                        .replaceAll("»",""));
-            tags.add("%23" + Dictionary.toLatin(name_location .replaceAll(" ", "")
-                                                            .replaceAll("«","")
-                                                            .replaceAll("»","")));
-        }
-
-        String[] partsOfName = title.split( " ");
-        if (partsOfName.length <= 4) {
-            for (String s : partsOfName) {//тегом может быть часть названия ивента
-                if (s.equals(Dictionary.toLatin(s))) tags.add("%23" + s);
-                else {
-                    tags.add("%23" + s);
-                    tags.add("%23" + Dictionary.toLatin(s));
-                }
-            }
-        }
-    }
 
     public String getImage_url() {
         return image_url;
     }
 
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
-    }
 
     public double getLatitude() {
         return latitude;

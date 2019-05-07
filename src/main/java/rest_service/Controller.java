@@ -8,11 +8,13 @@ import org.springframework.http.MediaType;
 import parsers.*;
 import org.springframework.web.bind.annotation.*;
 import parsers.updates_for_events.Dictionary;
+import parsers.updates_for_events.EventUpdate;
 import parsers.vk_parser.VkApiParser.VkEventsApiParser;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static parsers.updates_for_events.Dictionary.TypeOfEvent.*;
 
@@ -39,30 +41,30 @@ public class Controller {
         Parser p = ParserFactory.getParser(Dictionary.getTypeOfEventByName(typeOfEvent));
         switch (typeOfEvent) {
             case "cinema" : {
-                PostToEventService.postAll(ParserFactory.getParser(CINEMA)
+                PostEventToEventService.postAll(ParserFactory.getParser(CINEMA)
                         .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
-                //PostToEventService.postAll(ParserFactory.getParser(EXHIBITION)
+                //PostEventToEventService.postAll(ParserFactory.getParser(EXHIBITION)
                   //      .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL));
             }
 
             case "theatre" : {
-                //PostToEventService.postAll(ParserFactory.getParser(THEATRE)
+                //PostEventToEventService.postAll(ParserFactory.getParser(THEATRE)
                   //      .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL));
             }
 
             case "concert" : {
-                //PostToEventService.postAll(ParserFactory.getParser(CONCERT)
+                //PostEventToEventService.postAll(ParserFactory.getParser(CONCERT)
                  //       .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL));
             }
             case "vk_event" : {
                 try {
-                    PostToEventService.postAll(new VkEventsApiParser().getEvents());
+                    PostEventToEventService.postAll(new VkEventsApiParser().getEvents());
                     return new VkEventsApiParser().getEvents();
 
                 } catch (ClientException e) {
@@ -81,6 +83,12 @@ public class Controller {
         e.show();
         return e;
     }
+    //Для тестирования работоспособности postUpdates
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public EventUpdate testPostEvent(@RequestBody EventUpdate eu){
+        eu.show();
+        return eu;
+    }
 
 //заставляет отправить обновление в EventService
     @RequestMapping(value = "/parse", method = RequestMethod.POST)
@@ -88,31 +96,31 @@ public class Controller {
         try {
         switch (urlWhatToParse) {
             case AFISHA_CINEMA_URL : {
-                PostToEventService.postAll(ParserFactory.getParser(CINEMA)
+                PostEventToEventService.postAll(ParserFactory.getParser(CINEMA)
                         .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
                 logger.info(urlWhatToParse + " parsed");
                 return "OK";
             }
                 case AFISHA_EXHIBITION_URL : {
-                    PostToEventService.postAll(ParserFactory.getParser(EXHIBITION)
+                    PostEventToEventService.postAll(ParserFactory.getParser(EXHIBITION)
                             .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_EXHIBITION_URL)));
                     logger.info(urlWhatToParse + " parsed");
                     return "OK";
                 }
                 case AFISHA_THEATRE_URL : {
-                    PostToEventService.postAll(ParserFactory.getParser(THEATRE)
+                    PostEventToEventService.postAll(ParserFactory.getParser(THEATRE)
                             .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_THEATRE_URL)));
                     logger.info(urlWhatToParse + " parsed");
                     return "OK";
                 }
                 case AFISHA_CONCERT_URL : {
-                    PostToEventService.postAll(ParserFactory.getParser(CONCERT)
+                    PostEventToEventService.postAll(ParserFactory.getParser(CONCERT)
                             .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CONCERT_URL)));
                     logger.info(urlWhatToParse + " parsed");
                     return "OK";
                 }
                 case VK_EVENT_URL : {
-                    PostToEventService.postAll(new VkEventsApiParser().getEvents());
+                    PostEventToEventService.postAll(new VkEventsApiParser().getEvents());
                     logger.info(urlWhatToParse + " parsed");
                     return "OK";
                 }
@@ -124,6 +132,13 @@ public class Controller {
             logger.error("couldn't parse " + urlWhatToParse, e);
             return "Someting gone wrong";
         }
+    }
+    @RequestMapping(value = "/find_updates", method = RequestMethod.POST)
+    public ArrayList<EventUpdate> postEventsForUpdates(@RequestBody ArrayList<EventDTO> eventsDTO){
+        ArrayList<EventUpdate> updates = new ArrayList<>();
+        for(EventDTO e : eventsDTO)
+            updates.addAll(EventUpdate.findUpdatesForEventInTwitter(e));
+        return updates;
     }
 
 

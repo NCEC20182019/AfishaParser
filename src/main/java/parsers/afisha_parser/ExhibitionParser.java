@@ -42,7 +42,6 @@ public class ExhibitionParser extends Parser {
                 source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");
 
                 events.add(new Event(title, source_url, description, location, EXHIBITION, image_url, date_start, date_end));
-                events.get(events.size() - 1).setTags();
             }
             logger.info("Exhibitions from afisha.ru were parsed");
         }catch (Exception e){

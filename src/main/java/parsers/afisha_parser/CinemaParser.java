@@ -37,7 +37,6 @@ public class CinemaParser extends Parser {
                 description = el.child(0).child(el.child(0).children().size() - 1).attr("content");// всегда в последнем child'e, но номер меняется из-за
                 source_url = AFISHA_URL + el.child(1).child(0).child(0).attr("href");              //разного количества режиссёров
                 events.add(new Event(title, source_url, description, "", CINEMA, image_url, null, null));
-                events.get(events.size() - 1).setTags();
             }
             logger.info("Cinemas from afisha.ru were parsed");
         } catch (Exception e) {
