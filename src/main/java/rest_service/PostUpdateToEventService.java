@@ -25,7 +25,7 @@ public class PostUpdateToEventService {
         // Data attached to the request.
         HttpEntity<EventUpdate> requestBody = new HttpEntity<>(update, headers);
         // Send request with POST method.
-        EventUpdate e = rt.postForObject(REAL_UPDATE_SERVICE_URL, requestBody, EventUpdate.class);
+        EventUpdate e = rt.postForObject(SERVER_UPDATE_SERVICE_URL, requestBody, EventUpdate.class);
 //для теста
     }
 

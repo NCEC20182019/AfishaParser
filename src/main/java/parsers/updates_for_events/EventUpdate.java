@@ -1,14 +1,24 @@
 package parsers.updates_for_events;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import parsers.Event;
 import parsers.EventDTO;
 import parsers.Parser;
 import parsers.TwitterParser.TwitterParser;
+import rest_service.PostUpdateToEventService;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class EventUpdate {
+    private final static String URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://localhost:8092/update/batch";
+    private final static String REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://lemmeknow.tk:8092/update/batch";
+
+
     private String url_to_tweet;
     private String text_from_tweet;
     private String url_to_pic_from_tweet;
@@ -33,7 +43,28 @@ public class EventUpdate {
 
 
 
-    public static ArrayList<EventUpdate> findUpdatesForEventInTwitter(EventDTO event){
+    public ArrayList<EventDTO> getEventFromEventService(){
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<ArrayList<EventDTO>> response = rt.exchange(URL_FOR_BATCH_FROM_EVENT_SERVICE, HttpMethod.GET, null
+                , new ParameterizedTypeReference<ArrayList<EventDTO>>() {});
+        return response.getBody();
+    }
+
+    public void update(){
+        ArrayList<EventUpdate> eventUpdates = new ArrayList<>();
+        for(EventDTO e : getEventFromEventService()){
+            System.out.println(e);
+            e.setTags();
+            eventUpdates.addAll(findUpdatesForEventInTwitter(e));
+        }
+        PostUpdateToEventService.postAll(eventUpdates);
+    }
+
+    public static void main(String[] args) {
+        new EventUpdate().update();
+    }
+
+    public ArrayList<EventUpdate> findUpdatesForEventInTwitter(EventDTO event){
         ArrayList<EventUpdate> updates = new ArrayList<>();
         ArrayList<String> tags = event.getTags();
         TwitterParser tp = new TwitterParser();
@@ -41,7 +72,6 @@ public class EventUpdate {
             TweetsSearcher.search(tag);
             updates.addAll(tp.getEventUpdates(event));
         }
-
         return updates;
     }
 

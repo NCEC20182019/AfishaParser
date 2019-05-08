@@ -124,6 +124,11 @@ public class Controller {
                     logger.info(urlWhatToParse + " parsed");
                     return "OK";
                 }
+                case "TWITTER" : {
+                    new EventUpdate().update();
+                    logger.info(urlWhatToParse + " parsed");
+                    return "OK";
+                }
 
         }
             return "Wrong parameter";
@@ -133,13 +138,7 @@ public class Controller {
             return "Someting gone wrong";
         }
     }
-    @RequestMapping(value = "/find_updates", method = RequestMethod.POST)
-    public ArrayList<EventUpdate> postEventsForUpdates(@RequestBody ArrayList<EventDTO> eventsDTO){
-        ArrayList<EventUpdate> updates = new ArrayList<>();
-        for(EventDTO e : eventsDTO)
-            updates.addAll(EventUpdate.findUpdatesForEventInTwitter(e));
-        return updates;
-    }
+
 
 
 
