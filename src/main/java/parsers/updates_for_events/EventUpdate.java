@@ -45,24 +45,20 @@ public class EventUpdate {
 
     public ArrayList<EventDTO> getEventFromEventService(){
         RestTemplate rt = new RestTemplate();
-        ResponseEntity<ArrayList<EventDTO>> response = rt.exchange(URL_FOR_BATCH_FROM_EVENT_SERVICE, HttpMethod.GET, null
+        ResponseEntity<ArrayList<EventDTO>> response = rt.exchange(REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE, HttpMethod.GET, null
                 , new ParameterizedTypeReference<ArrayList<EventDTO>>() {});
         return response.getBody();
     }
 
-    public void update(){
+    public ArrayList<EventUpdate> update(){
         ArrayList<EventUpdate> eventUpdates = new ArrayList<>();
         for(EventDTO e : getEventFromEventService()){
-            System.out.println(e);
             e.setTags();
             eventUpdates.addAll(findUpdatesForEventInTwitter(e));
         }
-        PostUpdateToEventService.postAll(eventUpdates);
+        return eventUpdates;
     }
 
-    public static void main(String[] args) {
-        new EventUpdate().update();
-    }
 
     public ArrayList<EventUpdate> findUpdatesForEventInTwitter(EventDTO event){
         ArrayList<EventUpdate> updates = new ArrayList<>();
@@ -75,24 +71,6 @@ public class EventUpdate {
         return updates;
     }
 
-    /*public static void main(String[] args) {
-        ArrayList<EventUpdate> allUpdates = new ArrayList<>();
-        int i = 0;
-        ArrayList<Event> events = Parser.parseEveryting();
-
-                //new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list"));
-                //Parser.parseEveryting();
-        System.out.println("Events size=" + events.size());
-        for(Event e : events){
-            System.out.println("Event #" + i++);
-            for(EventUpdate eu : EventUpdate.findUpdatesForEventInTwitter(e))
-                eu.show();
-        }
-        //101 апдейт на 7 тегов!!! Как такое может быть????????
-        /*System.out.println("allUpdates size=" + allUpdates.size());
-        for( EventUpdate eu : allUpdates)
-            eu.show();
-    }*/
 
     public EventUpdate() {
     }

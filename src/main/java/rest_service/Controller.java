@@ -32,6 +32,12 @@ public class Controller {
 
 
 
+    @RequestMapping(value = "/updates", method = RequestMethod.GET)
+    public ArrayList<EventUpdate> getUpdates(){
+        ArrayList<EventUpdate> list = new EventUpdate().update();
+        PostUpdateToEventService.postAll(list);
+        return list;
+    }
 
 
     //теперь в основном для тестирования т.к. есть POST в EventService
@@ -125,11 +131,10 @@ public class Controller {
                     return "OK";
                 }
                 case "TWITTER" : {
-                    new EventUpdate().update();
+                    PostUpdateToEventService.postAll(new EventUpdate().update());
                     logger.info(urlWhatToParse + " parsed");
                     return "OK";
                 }
-
         }
             return "Wrong parameter";
 

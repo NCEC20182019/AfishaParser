@@ -42,12 +42,13 @@ public class TweetsSearcher {
                 logger.error("something wrong while writting " + TWITTER_SEARCH_RESULT_FILENAME, e);
                 throw new RuntimeException();
             }
-            webClient.close();
+      		
             logger.info("End of browsing." + TWITTER_SEARCH_RESULT_FILENAME + "ready for parsing");
         } catch (Exception e) {
             logger.error("something wrong while browsing " + TWITTER_SEARCH_URL + hashtag, e);
             throw new RuntimeException();
         }
+        webClient.close();
     }
     public static void main(String[] args) throws IOException, InterruptedException {
         TweetsSearcher.search("%23Voronezh");

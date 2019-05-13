@@ -56,16 +56,12 @@ public class TwitterParser {
         int n = 0;
         for (Element e : tweets) {
             urlToTweet = TWITTER_URL + e.getElementsByClass(CLASS_WITH_TWEET_URL).attr("href");
-            System.out.println(urlToTweet);
             textFromTweet = e.getElementsByClass(CLASS_WITH_TEXT).text();
-            System.out.println(textFromTweet);
             try {
                 urlToPicFromTweet = e.getElementsByClass(CLASS_WITH_PIC).attr(ATTR_NAME_FOR_CLASS_WITH_PIC);
             } catch (Exception ex) {
                 urlToPicFromTweet = "";
             }
-            System.out.println(urlToPicFromTweet);
-            System.out.println("=================================================================");
             upadates.add(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event.getEvent_id(), new Date()));
         }
 
@@ -75,8 +71,5 @@ public class TwitterParser {
         return upadates;
     }
 
-    /*public static void main(String[] args) throws IOException {
-        TwitterParser tp = new TwitterParser();
-        tp.getEventUpdates(new Event());
-    }*/
+
 }
