@@ -32,12 +32,14 @@ public class Controller {
 
 
 
+/*
     @RequestMapping(value = "/updates", method = RequestMethod.GET)
     public ArrayList<EventUpdate> getUpdates(){
         ArrayList<EventUpdate> list = new EventUpdate().update();
         PostUpdateToEventService.postAll(list);
         return list;
     }
+*/
 
 
     //теперь в основном для тестирования т.к. есть POST в EventService
@@ -131,8 +133,13 @@ public class Controller {
                     return "OK";
                 }
                 case "TWITTER" : {
-                    PostUpdateToEventService.postAll(new EventUpdate().update());
-                    logger.info(urlWhatToParse + " parsed");
+                    EventUpdate eu = new EventUpdate();
+                    ArrayList<EventDTO> events = eu.getEventFromEventService();;
+                    while (events.size() > 0) {
+                        PostUpdateToEventService.postAll(eu.update(events));
+                        logger.info(urlWhatToParse + " parsed");
+                        events = eu.getEventFromEventService();
+                    }
                     return "OK";
                 }
         }

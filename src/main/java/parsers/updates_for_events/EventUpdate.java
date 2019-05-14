@@ -51,9 +51,9 @@ public class EventUpdate {
         return response.getBody();
     }
 
-    public ArrayList<EventUpdate> update(){
+    public ArrayList<EventUpdate> update(ArrayList<EventDTO> events){
         ArrayList<EventUpdate> eventUpdates = new ArrayList<>();
-        for(EventDTO e : getEventFromEventService()){
+        for(EventDTO e : events){
             e.setTags();
             eventUpdates.addAll(findUpdatesForEventInTwitter(e));
         }
