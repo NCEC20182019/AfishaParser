@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class PostUpdateToEventService {
     private static final String TEST_UPDATE_SERVICE_URL    =  "http://localhost:8094/parser/update";
     private static final String REAL_UPDATE_SERVICE_URL    =  "http://localhost:8092/update/create/";
-    private static final String SERVER_UPDATE_SERVICE_URL  =  "http://lemmeknow.tk:8092/update/create/";
-    private static final String SERVER1_UPDATE_SERVICE_URL =  "/update/create";
+    private static final String SERVER_UPDATE_SERVICE_URL  =  "http://lemmeknow.tk:8092/updates/create/";
+    private static final String SERVER1_UPDATE_SERVICE_URL =  "/updates/create";
 
     private PostUpdateToEventService(){};
 

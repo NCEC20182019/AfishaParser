@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class EventUpdate {
     private final static String URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://localhost:8092/update/batch";
-    private final static String REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://lemmeknow.tk:8092/update/batch";
+    private final static String REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://lemmeknow.tk:8092/updates/batch";
 
 
     private String url_to_tweet;
