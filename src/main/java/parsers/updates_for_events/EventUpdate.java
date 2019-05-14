@@ -8,6 +8,7 @@ import parsers.Event;
 import parsers.EventDTO;
 import parsers.Parser;
 import parsers.TwitterParser.TwitterParser;
+import parsers.afisha_parser.CinemaParser;
 import rest_service.PostUpdateToEventService;
 
 import java.lang.reflect.Type;
@@ -57,6 +58,17 @@ public class EventUpdate {
             eventUpdates.addAll(findUpdatesForEventInTwitter(e));
         }
         return eventUpdates;
+    }
+
+    public static void main(String[] args) {
+
+        ArrayList<EventDTO> eventDTOS = new ArrayList<>();
+        for (Event e : new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list")))
+            eventDTOS.add(new EventDTO().EventToDTO(e));
+
+        for (EventDTO dto : eventDTOS)
+            for(EventUpdate eu : new EventUpdate().findUpdatesForEventInTwitter(dto))
+                eu.show();
     }
 
 

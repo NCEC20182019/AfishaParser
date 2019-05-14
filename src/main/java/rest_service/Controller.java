@@ -47,8 +47,8 @@ public class Controller {
         Parser p = ParserFactory.getParser(Dictionary.getTypeOfEventByName(typeOfEvent));
         switch (typeOfEvent) {
             case "cinema" : {
-                PostEventToEventService.postAll(ParserFactory.getParser(CINEMA)
-                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
+                //PostEventToEventService.postAll(ParserFactory.getParser(CINEMA)
+                 //       .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
@@ -70,7 +70,7 @@ public class Controller {
             }
             case "vk_event" : {
                 try {
-                    PostEventToEventService.postAll(new VkEventsApiParser().getEvents());
+                    //PostEventToEventService.postAll(new VkEventsApiParser().getEvents());
                     return new VkEventsApiParser().getEvents();
 
                 } catch (ClientException e) {
@@ -81,7 +81,7 @@ public class Controller {
             }
         }
 
-        return new ArrayList<Event>();
+        return new ArrayList<>();
     }
 //Для тестирования работоспособности postEvents
     @RequestMapping(value = "/event", method = RequestMethod.POST)

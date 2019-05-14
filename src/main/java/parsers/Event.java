@@ -23,6 +23,7 @@ public class Event {
     private double latitude;//широта
     private double longitude;//долгота
     private String street_address;
+    private int owner_id;
 
 
 

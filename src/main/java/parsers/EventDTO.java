@@ -22,6 +22,17 @@ public class EventDTO {
         this.event_id = event_id;
     }
 
+    public EventDTO EventToDTO(Event e){
+        EventDTO dto = new EventDTO();
+        dto.title = e.getTitle();
+        dto.typeOfEvent = e.getTypeOfEvent();
+        dto.date_start = e.getDate_start();
+        dto.date_end = e.getDate_end();
+        dto.event_id = 0;
+        dto.setTags();
+        return dto;
+    }
+
     public EventDTO() {
     }
 
