@@ -63,8 +63,11 @@ public class EventUpdate {
     public static void main(String[] args) {
 
         ArrayList<EventDTO> eventDTOS = new ArrayList<>();
-        for (Event e : new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list")))
-            eventDTOS.add(new EventDTO().EventToDTO(e));
+        ArrayList<Event> events = new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list"));
+        //for (Event e : new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list")))
+            //eventDTOS.add(new EventDTO().EventToDTO(e));
+        eventDTOS.add(new EventDTO().EventToDTO(events.get(0)));
+        eventDTOS.add(new EventDTO().EventToDTO(events.get(1)));
 
         for (EventDTO dto : eventDTOS)
             for(EventUpdate eu : new EventUpdate().findUpdatesForEventInTwitter(dto))
