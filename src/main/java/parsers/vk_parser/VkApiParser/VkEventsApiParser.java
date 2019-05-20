@@ -173,7 +173,7 @@ public class VkEventsApiParser{
                 else date_end = null;
 
             events.add(new Event(title, source_url, description, location_name, latitude, longitude, street_address, VK_EVENT, image_url, date_start, date_end));
-            //events.get(events.size() - 1).setTags();
+            //events.get(events.size() - 1).createTags();
         }
 
         return events;

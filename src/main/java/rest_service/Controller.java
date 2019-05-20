@@ -32,14 +32,23 @@ public class Controller {
 
 
 
-/*
+
     @RequestMapping(value = "/updates", method = RequestMethod.GET)
-    public ArrayList<EventUpdate> getUpdates(){
-        ArrayList<EventUpdate> list = new EventUpdate().update();
-        PostUpdateToEventService.postAll(list);
-        return list;
+    public String getUpdates(){
+        EventUpdate eu = new EventUpdate();
+        ArrayList<EventDTO> events = eu.getEventFromEventService();
+        //logger.debug(events.get(0).getTags().toString());
+        while (events.size() > 0) {
+            PostUpdateToEventService.postAll(eu.update(events));
+//            logger.info(urlWhatToParse + " parsed");
+            events = eu.getEventFromEventService();
+        }
+
+  //      ArrayList<EventUpdate> list = new EventUpdate().update();
+    //    PostUpdateToEventService.postAll(list);
+        return "OK";
     }
-*/
+
 
 
     //теперь в основном для тестирования т.к. есть POST в EventService
@@ -49,8 +58,8 @@ public class Controller {
         Parser p = ParserFactory.getParser(Dictionary.getTypeOfEventByName(typeOfEvent));
         switch (typeOfEvent) {
             case "cinema" : {
-                //PostEventToEventService.postAll(ParserFactory.getParser(CINEMA)
-                 //       .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
+                PostEventToEventService.postAll(ParserFactory.getParser(CINEMA)
+                        .parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL)));
                 return p.parseUsingHtmlAttributes(Parser.getDocument(AFISHA_CINEMA_URL));
             }
             case "exhibition" : {
@@ -72,7 +81,7 @@ public class Controller {
             }
             case "vk_event" : {
                 try {
-                    //PostEventToEventService.postAll(new VkEventsApiParser().getEvents());
+                    PostEventToEventService.postAll(new VkEventsApiParser().getEvents());
                     return new VkEventsApiParser().getEvents();
 
                 } catch (ClientException e) {

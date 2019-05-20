@@ -8,6 +8,7 @@ import java.util.Date;
 public class EventDTO {
     private String title;
 
+
     private Dictionary.TypeOfEvent typeOfEvent;
     private Date date_start;
     private Date date_end;
@@ -29,11 +30,15 @@ public class EventDTO {
         dto.date_start = e.getDate_start();
         dto.date_end = e.getDate_end();
         dto.event_id = 0;
-        dto.setTags();
+        dto.createTags();
         return dto;
     }
 
     public EventDTO() {
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
     public ArrayList<String> getTags() {
@@ -41,9 +46,35 @@ public class EventDTO {
     }
 
 
-    public void setTags() {
+    public void createTags() {
         tags = new ArrayList<>();
-        tags.add("%23" + title.replaceAll(" ", "")
+        if (title.length() > 15) {
+            String[] partsOfName = title.split(" ");
+            int wordsCounter = 0;
+            String name = "";
+            for (String str : partsOfName) {
+                if (wordsCounter <= 3) {
+                    name += str;
+                    wordsCounter++;
+                } else break;
+            }
+            tags.add("%23Voronezh" + name);
+            tags.add("%23Воронеж" + name);
+            tags.add(name);
+            if (!name.equals(Dictionary.toLatin(name))) {
+                tags.add("%23Voronezh" + Dictionary.toLatin(name));
+                tags.add("%23Воронеж" + Dictionary.toLatin(name));
+            }
+        }else {
+            tags.add("%23Voronezh" + title.replaceAll(" ", "")
+                    .replaceAll("«","")
+                    .replaceAll("»",""));
+            tags.add("%23Воронеж" + title.replaceAll(" ", "")
+                    .replaceAll("«","")
+                    .replaceAll("»",""));
+        }
+
+        /*tags.add("%23" + title.replaceAll(" ", "")
                 .replaceAll("«","")
                 .replaceAll("»",""));
         tags.add("%23Воронеж" + "%23" + title.replaceAll(" ", "")
@@ -53,13 +84,8 @@ public class EventDTO {
         //tags.add("%23Voronezh");
         tags.add("%23Voronezh" + "%23" + title.replaceAll(" ", "")
                 .replaceAll("«","")
-                .replaceAll("»",""));
-        if (typeOfEvent != null){
-            tags.add("%23" + typeOfEvent.name()); //3 и 4 тег с типом ивента
-            tags.add("%23" + Dictionary.typeOfEventToCyrillic(typeOfEvent).name());
-        }
-        String[] partsOfName = title.split( " ");
-        /*if (partsOfName.length <= 3) {
+                .replaceAll("»",""));*/
+/*if (partsOfName.length <= 3) {
             for (String s : partsOfName) {//тегом может быть часть названия ивента
                 if (s.equals(Dictionary.toLatin(s))) tags.add("%23" + s);
                 else {

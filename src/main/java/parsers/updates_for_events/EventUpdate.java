@@ -9,14 +9,12 @@ import parsers.EventDTO;
 import parsers.Parser;
 import parsers.TwitterParser.TwitterParser;
 import parsers.afisha_parser.CinemaParser;
-import rest_service.PostUpdateToEventService;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class EventUpdate {
-    private final static String URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://localhost:8092/update/batch";
+    private final static String URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://localhost:8092/updates/batch";
     private final static String REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://lemmeknow.tk:8092/updates/batch";
 
 
@@ -46,7 +44,7 @@ public class EventUpdate {
 
     public ArrayList<EventDTO> getEventFromEventService(){
         RestTemplate rt = new RestTemplate();
-        ResponseEntity<ArrayList<EventDTO>> response = rt.exchange(REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE, HttpMethod.GET, null
+        ResponseEntity<ArrayList<EventDTO>> response = rt.exchange(URL_FOR_BATCH_FROM_EVENT_SERVICE, HttpMethod.GET, null
                 , new ParameterizedTypeReference<ArrayList<EventDTO>>() {});
         return response.getBody();
     }
@@ -54,7 +52,7 @@ public class EventUpdate {
     public ArrayList<EventUpdate> update(ArrayList<EventDTO> events){
         ArrayList<EventUpdate> eventUpdates = new ArrayList<>();
         for(EventDTO e : events){
-            e.setTags();
+            e.createTags();
             eventUpdates.addAll(findUpdatesForEventInTwitter(e));
         }
         return eventUpdates;

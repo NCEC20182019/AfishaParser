@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class PostUpdateToEventService {
     private static final String TEST_UPDATE_SERVICE_URL    =  "http://localhost:8094/parser/update";
-    private static final String REAL_UPDATE_SERVICE_URL    =  "http://localhost:8092/update/create/";
+    private static final String REAL_UPDATE_SERVICE_URL    =  "http://localhost:8092/updates/create/";
     private static final String SERVER_UPDATE_SERVICE_URL  =  "http://lemmeknow.tk:8092/updates/create/";
     private static final String SERVER1_UPDATE_SERVICE_URL =  "/updates/create";
 
@@ -25,7 +25,7 @@ public class PostUpdateToEventService {
         // Data attached to the request.
         HttpEntity<EventUpdate> requestBody = new HttpEntity<>(update, headers);
         // Send request with POST method.
-        EventUpdate e = rt.postForObject(SERVER_UPDATE_SERVICE_URL, requestBody, EventUpdate.class);
+        EventUpdate e = rt.postForObject(REAL_UPDATE_SERVICE_URL, requestBody, EventUpdate.class);
 //для теста
     }
 
