@@ -118,7 +118,7 @@ public class VkEventsApiParser{
     private List<GroupField> getWantedFields(){
         ArrayList<GroupField> list = new ArrayList<>();
         list.add(GroupField.SCREEN_NAME);
-        list.add(GroupField.PHOTO_200);
+        list.add(GroupField.PHOTO_50);
         list.add(GroupField.DESCRIPTION);
         list.add(GroupField.START_DATE);
         list.add(GroupField.FINISH_DATE);
