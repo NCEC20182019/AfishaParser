@@ -148,7 +148,7 @@ public class VkEventsApiParser{
         for (GroupFull g : groupFulls){
             title = g.getName();
             source_url = "https://vk.com/event" + g.getId().toString();
-            image_url = g.getPhoto200();
+            image_url = g.getPhoto50();
             try {
                 location_name = g.getPlace().getTitle();
             }catch (Exception e){
