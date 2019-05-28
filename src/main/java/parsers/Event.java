@@ -4,17 +4,14 @@ import parsers.updates_for_events.Dictionary;
 import parsers.vk_parser.VkApiParser.VkEventsApiParser;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class Event {
     private String title;
     private String description;
     private String source_uri;
     private String name_location;
-    private Dictionary.TypeOfEvent typeOfEvent;
+    private Dictionary.TypeOfEvent type;
     //private LocalDateTime date_start;
     //private LocalDateTime date_end;
     private Date date_start;
@@ -94,12 +91,12 @@ public class Event {
     }
 
 
-    public Dictionary.TypeOfEvent getTypeOfEvent() {
-        return typeOfEvent;
+    public Dictionary.TypeOfEvent getType() {
+        return type;
     }
 
-    public void setTypeOfEvent(Dictionary.TypeOfEvent typeOfEvent) {
-        this.typeOfEvent = typeOfEvent;
+    public void setType(Dictionary.TypeOfEvent type) {
+        this.type = type;
     }
 
     public String getTitle() {
@@ -152,7 +149,7 @@ public class Event {
         this.description = description;
         this.source_uri = source_uri;
         this.name_location = name_location;
-        this.typeOfEvent = type_of_event;
+        this.type = type_of_event;
         this.image_url = image_url;
 
         this.date_start = VkEventsApiParser.convertToDateViaInstant(date_start);
@@ -164,7 +161,7 @@ public class Event {
         this.description = description;
         this.source_uri = source_uri;
         this.name_location = name_location;
-        this.typeOfEvent = type_of_event;
+        this.type = type_of_event;
         this.image_url = image_url;
         this.date_start = VkEventsApiParser.convertToDateViaInstant(date_start);
         this.date_end = VkEventsApiParser.convertToDateViaInstant(date_end);
@@ -188,8 +185,8 @@ public class Event {
         if (source_uri != null ? !source_uri.equals(event.source_uri) : event.source_uri != null) return false;
         if (name_location != null ? !name_location.equals(event.name_location) : event.name_location != null)
             return false;
-        return  typeOfEvent != null ? typeOfEvent.equals(event.typeOfEvent) : event.typeOfEvent == null;
-        //if (typeOfEvent != null ? !typeOfEvent.equals(event.typeOfEvent) : event.typeOfEvent != null) return false;
+        return  type != null ? type.equals(event.type) : event.type == null;
+        //if (type != null ? !type.equals(event.type) : event.type != null) return false;
         /*if (date_start != null ? !date_start.equals(event.date_start) : event.date_start != null) return false;
         return date_end != null ? date_end.equals(event.date_end) : event.date_end == null;*/
     }
@@ -203,7 +200,7 @@ public class Event {
         System.out.println("street address= " + street_address);
         System.out.println("latitude= " + latitude);
         System.out.println("longitude= " + longitude);
-        System.out.println("type_of_event= " + typeOfEvent);
+        System.out.println("type_of_event= " + type);
         System.out.println("date_start= " + date_start);
         System.out.println("date_end= " + date_end);
         System.out.println("image_url= " + image_url);

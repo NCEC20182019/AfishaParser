@@ -9,15 +9,15 @@ public class EventDTO {
     private String title;
 
 
-    private Dictionary.TypeOfEvent typeOfEvent;
+    private Dictionary.TypeOfEvent type;
     private Date date_start;
     private Date date_end;
     private ArrayList<String> tags;
     private int event_id;
 
-    public EventDTO(String title, Dictionary.TypeOfEvent typeOfEvent, Date date_start, Date date_end, int event_id) {
+    public EventDTO(String title, Dictionary.TypeOfEvent type, Date date_start, Date date_end, int event_id) {
         this.title = title;
-        this.typeOfEvent = typeOfEvent;
+        this.type = type;
         this.date_start = date_start;
         this.date_end = date_end;
         this.event_id = event_id;
@@ -26,7 +26,7 @@ public class EventDTO {
     public EventDTO EventToDTO(Event e){
         EventDTO dto = new EventDTO();
         dto.title = e.getTitle();
-        dto.typeOfEvent = e.getTypeOfEvent();
+        dto.type = e.getType();
         dto.date_start = e.getDate_start();
         dto.date_end = e.getDate_end();
         dto.event_id = 0;
@@ -105,12 +105,12 @@ public class EventDTO {
         this.title = title;
     }
 
-    public Dictionary.TypeOfEvent getTypeOfEvent() {
-        return typeOfEvent;
+    public Dictionary.TypeOfEvent getType() {
+        return type;
     }
 
-    public void setTypeOfEvent(Dictionary.TypeOfEvent typeOfEvent) {
-        this.typeOfEvent = typeOfEvent;
+    public void setType(Dictionary.TypeOfEvent type) {
+        this.type = type;
     }
 
     public Date getDate_start() {
@@ -141,7 +141,7 @@ public class EventDTO {
     public String toString() {
         return "EventDTO{" +
                 "title='" + title + '\'' +
-                ", typeOfEvent=" + typeOfEvent +
+                ", type=" + type +
                 ", date_start=" + date_start +
                 ", date_end=" + date_end +
                 ", tags=" + tags +
