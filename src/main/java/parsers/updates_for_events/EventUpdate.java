@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EventUpdate {
-    private final static String URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://localhost:8092/updates/batch";
-    private final static String REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://lemmeknow.tk:8092/updates/batch";
+    private final static String URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://localhost/updates/batch";
+    private final static String REAL_URL_FOR_BATCH_FROM_EVENT_SERVICE = "http://lemmeknow.tk/updates/batch";
 
 
     private String url_to_tweet;
@@ -50,41 +50,40 @@ public class EventUpdate {
     }
 
     public ArrayList<EventUpdate> update(ArrayList<EventDTO> events){
-        ArrayList<EventUpdate> eventUpdates = new ArrayList<>();
         for(EventDTO e : events){
             e.createTags();
-            eventUpdates.addAll(findUpdatesForEventInTwitter(e));
+            findUpdatesForEventInTwitter(e);
         }
-        return eventUpdates;
+        return new ArrayList<>();
     }
 
-    public static void main(String[] args) {
-
-        ArrayList<EventDTO> eventDTOS = new ArrayList<>();
-        ArrayList<Event> events = new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list"));
-        //for (Event e : new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list")))
-            //eventDTOS.add(new EventDTO().EventToDTO(e));
-        eventDTOS.add(new EventDTO().EventToDTO(events.get(0)));
-        eventDTOS.add(new EventDTO().EventToDTO(events.get(1)));
-
-        for (EventDTO dto : eventDTOS)
-            for(EventUpdate eu : new EventUpdate().findUpdatesForEventInTwitter(dto))
-                eu.show();
-    }
 
 
     public ArrayList<EventUpdate> findUpdatesForEventInTwitter(EventDTO event){
-        ArrayList<EventUpdate> updates = new ArrayList<>();
-        ArrayList<String> tags = event.getTags();
+        //ArrayList<EventUpdate> updates = new ArrayList<>();
+
         TwitterParser tp = new TwitterParser();
-        for(String tag : tags){
+        for(String tag : event.getTags()){
             TweetsSearcher.search(tag);
-            updates.addAll(tp.getEventUpdates(event));
+            tp.getEventUpdates(event);
         }
-        return updates;
+        return new ArrayList<>();
     }
 
 
+    /* public static void main(String[] args) {
+
+         ArrayList<EventDTO> eventDTOS = new ArrayList<>();
+         ArrayList<Event> events = new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list"));
+         //for (Event e : new CinemaParser().getEvents(Parser.getDocument("https://www.afisha.ru/voronezh/schedule_cinema/?view=list")))
+             //eventDTOS.add(new EventDTO().EventToDTO(e));
+         eventDTOS.add(new EventDTO().EventToDTO(events.get(0)));
+         eventDTOS.add(new EventDTO().EventToDTO(events.get(1)));
+
+         for (EventDTO dto : eventDTOS)
+             for(EventUpdate eu : new EventUpdate().findUpdatesForEventInTwitter(dto))
+                 eu.show();
+     }*/
     public EventUpdate() {
     }
 

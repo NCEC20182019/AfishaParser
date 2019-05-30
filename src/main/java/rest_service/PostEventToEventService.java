@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PostEventToEventService {
 //Выставить необходимый урл
     private static final String TEST_EVENT_SERVICE_URL    =  "http://localhost:8094/parser/event";
-    private static final String REAL_EVENT_SERVICE_URL    =  "http://localhost:8092/events/create/";
+    private static final String REAL_EVENT_SERVICE_URL    =  "http://localhost/events/create/";
     private static final String SERVER_EVENT_SERVICE_URL  =  "http://lemmeknow.tk:8092/events/create/";
     private static final String SERVER1_EVENT_SERVICE_URL =  "/events/create";
 

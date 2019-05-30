@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import parsers.Event;
 import parsers.EventDTO;
 import parsers.updates_for_events.EventUpdate;
+import rest_service.PostUpdateToEventService;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class TwitterParser {
             logger.error("There is no " + TWITTER_SEARCH_RESULT_FILENAME, e);
             throw new RuntimeException();
         }
-        ArrayList<EventUpdate> upadates = new ArrayList<>();
+        //ArrayList<EventUpdate> upadates = new ArrayList<>();
         String urlToTweet, textFromTweet, urlToPicFromTweet;
         Elements tweets = doc.getElementsByClass(CLASS_WITH_TWEETS);
         //Вместо n должен быть event_id
@@ -62,13 +63,19 @@ public class TwitterParser {
             } catch (Exception ex) {
                 urlToPicFromTweet = "";
             }
-            upadates.add(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event.getEvent_id(), new Date()));
-        }
+            //upadates.add(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event.getEvent_id(), new Date()));
+            try {
+                PostUpdateToEventService.postUpdate(new EventUpdate(urlToTweet, textFromTweet, urlToPicFromTweet, event.getEvent_id(), new Date()));
+                logger.info("Отправлено ");
+            }catch (Exception ex){
+                logger.warn("Не отправлено", ex);
+            }
+            }
 
 
 
         logger.info("Parsing " + TWITTER_SEARCH_RESULT_FILENAME + " is over");
-        return upadates;
+        return new ArrayList<>();
     }
 
 
